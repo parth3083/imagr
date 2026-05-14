@@ -1,0 +1,4 @@
+bun run format:fix
+bun run lint
+bun run check-types
+bun run build
