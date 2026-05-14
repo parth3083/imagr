@@ -16,6 +16,34 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "//#quality": {
+      "dependsOn": ["//#lint", "//#format"]
+    },
+    "//#quality:fix": {
+      "dependsOn": ["//#lint:fix", "//#format:fix"]
+    },
+    "//#lint": {},
+    "//#lint:fix": {
+      "cache": false
+    },
+    "//#format": {},
+    "//#format:fix": {
+      "dependsOn": ["//#lint:fix"],
+      "cache": false
+    },
+    "test": {
+      "dependsOn": ["transit"]
+    },
+    "transit": {
+      "dependsOn": ["^transit"]
+    },
+    "//#test": {
+      "outputs": ["coverage/**"]
+    },
+    "//#test:watch": {
+      "cache": false,
+      "persistent": true
     }
   }
 }
