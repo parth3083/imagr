@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -11,12 +11,16 @@
     "test:watch": "vitest --watch"
   },
   "dependencies": {
+    "@elysia/eden": "^1.4.10",
+    "@tanstack/react-query": "^5.100.10",
+    "elysia": "^1.4.28",
     "next": "16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "vitest": "^4.1.6"
   },
   "devDependencies": {
+    "@repo/ui": "*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
