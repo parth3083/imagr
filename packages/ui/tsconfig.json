@@ -3,9 +3,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "strictNullChecks": true,
-       "baseUrl": ".",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
     }
-  },
+  }
 }
