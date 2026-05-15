@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Francois_One } from 'next/font/google';
 
 import '@repo/ui/globals.css';
+import Provider from '@/providers/Provider';
 
 const francoisOne = Francois_One({
   variable: '--font-francois',
@@ -24,7 +25,9 @@ export default function RootLayout({
       lang="en"
       className={`${francoisOne.variable} ${francoisOne.className} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <Provider>{children}</Provider>
+      </body>
     </html>
   );
 }
