@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Francois_One } from 'next/font/google';
+import { Francois_One } from 'next/font/google';
 
-import '@repo/ui/globals.css';
 import Provider from '@/providers/Provider';
+import '@repo/ui/globals.css';
 
 const francoisOne = Francois_One({
   variable: '--font-francois',

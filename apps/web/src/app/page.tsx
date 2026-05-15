@@ -1,5 +1,4 @@
 import { Button } from '@repo/ui/components/ui/button';
-import React from 'react';
 
 const Page = () => {
   return (
