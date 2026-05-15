@@ -1,0 +1,27 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout_Code
+        uses: actions/checkout@v3
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.3
+
+      - name: Installing dependencies
+        run: bun install
+
+      - name: Run Lint
+        run: bun run lint
+
+      - name: Run Check types
+        run: bun run check-types
+
+      - name: Run build
+        run: bun run build

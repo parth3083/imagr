@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Francois_One } from 'next/font/google';
 
 import Provider from '@/providers/Provider';
+
 import '@repo/ui/globals.css';
 
 const francoisOne = Francois_One({
