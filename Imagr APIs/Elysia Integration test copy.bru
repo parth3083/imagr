@@ -1,0 +1,23 @@
+meta {
+  name: Elysia Integration test copy
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3001/api
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name":"Parth"
+    
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

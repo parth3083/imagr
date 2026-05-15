@@ -1,0 +1,16 @@
+meta {
+  name: Elysia Integration test
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3001/api
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
