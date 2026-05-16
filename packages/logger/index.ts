@@ -84,5 +84,3 @@ export type { Logger } from 'pino';
  * Default export for convenience
  */
 export default createLogger;
-
-// Made with Bob

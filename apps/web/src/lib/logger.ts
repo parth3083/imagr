@@ -18,5 +18,3 @@ export const logger = createLogger({
  * Export the Logger type for use in other files
  */
 export type { Logger } from '@repo/logger';
-
-// Made with Bob

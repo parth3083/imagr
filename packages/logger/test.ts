@@ -40,5 +40,3 @@ webLogger.info(
 );
 
 console.log('\n=== Logger Test Complete ===\n');
-
-// Made with Bob

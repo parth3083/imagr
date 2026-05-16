@@ -14,5 +14,3 @@ const getBaseUrl = () => {
 };
 
 export const apiClient = treaty<typeof app>(getBaseUrl()).api;
-
-// Made with Bob
