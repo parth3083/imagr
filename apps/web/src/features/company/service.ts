@@ -2,7 +2,7 @@ import connectDB from '@/db/db';
 import { Company } from '@/db/models';
 
 export abstract class CompanyService {
-  static async create(data: { name: string; website: string; openai: string }) {
+  static async create(data: { name: string; website: string }) {
     try {
       await connectDB();
       const company = await Company.create(data);
@@ -41,13 +41,13 @@ export abstract class CompanyService {
     }
   }
 
-  static async update(
-    id: string,
-    data: Partial<{ name: string; website: string; openai: string }>,
-  ) {
+  static async update(id: string, data: Partial<{ name: string; website: string }>) {
     try {
       await connectDB();
-      const company = await Company.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+      const company = await Company.findByIdAndUpdate(id, data, {
+        new: true,
+        runValidators: true,
+      });
       return { success: true as const, data: company };
     } catch (error) {
       return {

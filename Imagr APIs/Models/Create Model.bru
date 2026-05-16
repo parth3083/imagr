@@ -1,16 +1,15 @@
 meta {
-  name: Elysia Integration test
+  name: Create Model
   type: http
   seq: 1
 }
 
-get {
-  url: http://localhost:3001/api
+post {
+  url: {{server}}/model
   body: none
   auth: inherit
 }
 
 settings {
   encodeUrl: true
-  timeout: 0
 }

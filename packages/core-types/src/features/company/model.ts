@@ -3,13 +3,11 @@ import { t } from 'elysia';
 export const CreateCompanyModel = t.Object({
   name: t.String({ minLength: 1, error: 'Company name is required' }),
   website: t.String({ minLength: 1, error: 'Website is required' }),
-  openai: t.String({ minLength: 1, error: 'OpenAI API key is required' }),
 });
 
 export const UpdateCompanyModel = t.Object({
   name: t.Optional(t.String({ minLength: 1 })),
   website: t.Optional(t.String({ minLength: 1 })),
-  openai: t.Optional(t.String({ minLength: 1 })),
 });
 
 export const CompanyIdParam = t.Object({
