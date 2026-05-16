@@ -13,6 +13,7 @@
   "dependencies": {
     "@better-auth/mongo-adapter": "^1.6.11",
     "@elysia/eden": "^1.4.10",
+    "@elysiajs/cors": "^1.4.2",
     "@tanstack/react-query": "^5.100.10",
     "better-auth": "^1.6.11",
     "elysia": "^1.4.28",
