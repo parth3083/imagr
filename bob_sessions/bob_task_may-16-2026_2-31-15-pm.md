@@ -7,12 +7,12 @@ Now I added the sonner for the toasts in the UI do the following
 3. Remove the green text and section fromn the UI of the sign up and sign in form after the successful sign or the error red section instead use the toasts where in the UI.
 </task>
 
-<file_content path="packages/ui/src/styles/globals.css">
+<file*content path="packages/ui/src/styles/globals.css">
 1 | @import 'tailwindcss';
 2 | @import 'tw-animate-css';
 3 | @import 'shadcn/tailwind.css';
 4 |
-5 | @custom-variant dark (&:is(.dark _));
+5 | @custom-variant dark (&:is(.dark *));
 6 |
 7 | @source '../../components';
 8 |
@@ -193,7 +193,7 @@ Now I added the sonner for the toasts in the UI do the following
 183 | }
 184 |
 185 | @layer base {
-186 | _ {
+186 | \_ {
 187 | @apply border-border outline-ring/50;
 188 | }
 189 | body {
@@ -1353,6 +1353,7 @@ signUp(data);
         <div className="flex flex-col gap-6">
 
 =======
+
 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-7 px-4">
 <div className="flex flex-col gap-6">
 
@@ -1602,6 +1603,7 @@ signIn(data);
         <div className="flex flex-col gap-6">
 
 =======
+
 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-7 px-4">
 <div className="flex flex-col gap-6">
 
@@ -2511,16 +2513,16 @@ I'll create the database models and schemas for the image generation system base
 <content lines="1-56">
 1 | import mongoose from 'mongoose';
 2 |
-3 | const MONGODB_URI = process.env.DATABASE_URL;
+3 | const MONGODB*URI = process.env.DATABASE_URL;
 4 |
 5 | if (!MONGODB_URI) {
 6 | throw new Error('Please define the DATABASE_URL environment variable inside .env');
 7 | }
 8 |
-9 | /\*_
+9 | /\**
 10 | _ Global is used here to maintain a cached connection across hot reloads
 11 | _ in development. This prevents connections growing exponentially
-12 | _ during API Route usage.
+12 | \_ during API Route usage.
 13 | \*/
 14 | interface MongooseCache {
 15 | conn: typeof mongoose | null;
