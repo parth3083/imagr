@@ -11,31 +11,18 @@ import {
 import { Input } from '@repo/ui/components/ui/input';
 import { Label } from '@repo/ui/components/ui/label';
 import Link from 'next/link';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useSignIn } from '../hooks/useSignIn';
 
 function SignInPage() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
   const {
     formState: { errors },
     register,
     handleSubmit,
   } = useForm<SignInType>();
 
-  const { mutate: signIn, isPending } = useSignIn({
-    onSuccess: () => {
-      setSuccessMessage('Login successful! Redirecting...');
-      setErrorMessage(null);
-    },
-    onError: (error) => {
-      setErrorMessage(error);
-      setSuccessMessage(null);
-    },
-  });
+  const { mutate: signIn, isPending } = useSignIn();
 
   const onSubmit = (data: SignInType) => {
     signIn(data);
@@ -53,16 +40,6 @@ function SignInPage() {
         </CardAction>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-7 px-4">
-        {errorMessage && (
-          <div className="bg-destructive/10 text-destructive rounded-md p-3 text-sm">
-            {errorMessage}
-          </div>
-        )}
-        {successMessage && (
-          <div className="rounded-md bg-green-500/10 p-3 text-sm text-green-600">
-            {successMessage}
-          </div>
-        )}
         <div className="flex flex-col gap-6">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>

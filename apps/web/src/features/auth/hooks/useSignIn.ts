@@ -1,6 +1,7 @@
 import { SignInType } from '@repo/core-types/auth';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { apiClient } from '@/lib/api-client';
 
@@ -23,12 +24,14 @@ export function useSignIn(options?: UseSignInOptions) {
       return result;
     },
     onSuccess: () => {
+      toast.success('Login successful! Redirecting...');
       options?.onSuccess?.();
       setTimeout(() => {
         router.push(options?.redirectTo || '/');
       }, 1000);
     },
     onError: (error: Error) => {
+      toast.error(error.message);
       options?.onError?.(error.message);
     },
   });

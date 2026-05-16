@@ -1,6 +1,7 @@
 import { SignUpType } from '@repo/core-types/auth';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { apiClient } from '@/lib/api-client';
 
@@ -22,12 +23,14 @@ export function useSignUp(options?: UseSignUpOptions) {
       return result;
     },
     onSuccess: () => {
+      toast.success('Account created successfully! Redirecting to sign in...');
       options?.onSuccess?.();
       setTimeout(() => {
         router.push('/sign-in');
       }, 1500);
     },
     onError: (error: Error) => {
+      toast.error(error.message);
       options?.onError?.(error.message);
     },
   });
