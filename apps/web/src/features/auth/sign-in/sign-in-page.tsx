@@ -1,6 +1,5 @@
 'use client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SIGN_IN_SCHEMA, SignInSchemaType } from '@repo/core-types/auth';
+import { SignInType } from '@repo/core-types/auth';
 import { Button } from '@repo/ui/components/ui/button';
 import {
   Card,
@@ -12,18 +11,35 @@ import {
 import { Input } from '@repo/ui/components/ui/input';
 import { Label } from '@repo/ui/components/ui/label';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useSignIn } from '../hooks/useSignIn';
+
 function SignInPage() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   const {
     formState: { errors },
     register,
     handleSubmit,
-  } = useForm<SignInSchemaType>({
-    resolver: zodResolver(SIGN_IN_SCHEMA),
+  } = useForm<SignInType>();
+
+  const { mutate: signIn, isPending } = useSignIn({
+    onSuccess: () => {
+      setSuccessMessage('Login successful! Redirecting...');
+      setErrorMessage(null);
+    },
+    onError: (error) => {
+      setErrorMessage(error);
+      setSuccessMessage(null);
+    },
   });
 
-  const onSubmit = (data: SignInSchemaType) => console.log(data);
+  const onSubmit = (data: SignInType) => {
+    signIn(data);
+  };
 
   return (
     <Card className="border-primary w-full max-w-sm border">
@@ -37,6 +53,16 @@ function SignInPage() {
         </CardAction>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-7 px-4">
+        {errorMessage && (
+          <div className="bg-destructive/10 text-destructive rounded-md p-3 text-sm">
+            {errorMessage}
+          </div>
+        )}
+        {successMessage && (
+          <div className="rounded-md bg-green-500/10 p-3 text-sm text-green-600">
+            {successMessage}
+          </div>
+        )}
         <div className="flex flex-col gap-6">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
@@ -74,8 +100,8 @@ function SignInPage() {
         </div>
 
         <div className="flex-col gap-5">
-          <Button type="submit" className="w-full cursor-pointer">
-            Login
+          <Button type="submit" className="w-full cursor-pointer" disabled={isPending}>
+            {isPending ? 'Logging in...' : 'Login'}
           </Button>
           <div className="mt-3 flex w-full items-center justify-center gap-2">
             <Button

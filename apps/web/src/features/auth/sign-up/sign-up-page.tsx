@@ -1,6 +1,5 @@
 'use client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SIGN_UP_SCHEMA, SignUpSchemaType } from '@repo/core-types/auth';
+import { SignUpType } from '@repo/core-types/auth';
 import { Button } from '@repo/ui/components/ui/button';
 import {
   Card,
@@ -12,18 +11,35 @@ import {
 import { Input } from '@repo/ui/components/ui/input';
 import { Label } from '@repo/ui/components/ui/label';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useSignUp } from '../hooks/useSignUp';
+
 function SignUpPage() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   const {
     formState: { errors },
     register,
     handleSubmit,
-  } = useForm<SignUpSchemaType>({
-    resolver: zodResolver(SIGN_UP_SCHEMA),
+  } = useForm<SignUpType>();
+
+  const { mutate: signUp, isPending } = useSignUp({
+    onSuccess: () => {
+      setSuccessMessage('Account created successfully! Redirecting to sign in...');
+      setErrorMessage(null);
+    },
+    onError: (error) => {
+      setErrorMessage(error);
+      setSuccessMessage(null);
+    },
   });
 
-  const onSubmit = (data: SignUpSchemaType) => console.log(data);
+  const onSubmit = (data: SignUpType) => {
+    signUp(data);
+  };
 
   return (
     <Card className="border-primary w-full max-w-sm border">
@@ -37,7 +53,30 @@ function SignUpPage() {
         </CardAction>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-7 px-4">
+        {errorMessage && (
+          <div className="bg-destructive/10 text-destructive rounded-md p-3 text-sm">
+            {errorMessage}
+          </div>
+        )}
+        {successMessage && (
+          <div className="rounded-md bg-green-500/10 p-3 text-sm text-green-600">
+            {successMessage}
+          </div>
+        )}
         <div className="flex flex-col gap-6">
+          <div className="grid gap-2">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              {...register('name')}
+              id="name"
+              type="text"
+              placeholder="John Doe"
+              className="border-primary"
+            />
+            {errors.name?.message && (
+              <p className="text-destructive text-sm">{errors.name.message}</p>
+            )}
+          </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -78,8 +117,8 @@ function SignUpPage() {
         </div>
 
         <div className="flex-col gap-5">
-          <Button type="submit" className="w-full cursor-pointer">
-            Sign Up
+          <Button type="submit" className="w-full cursor-pointer" disabled={isPending}>
+            {isPending ? 'Creating account...' : 'Sign Up'}
           </Button>
           <div className="mt-3 flex w-full items-center justify-center gap-2">
             <Button

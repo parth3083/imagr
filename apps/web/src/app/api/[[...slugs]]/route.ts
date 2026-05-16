@@ -1,9 +1,11 @@
 import { Elysia, t } from 'elysia';
 
+import { auth } from '@/features/auth';
 import { betterAuth } from '@/features/auth/utils/elysia-better-auth';
 
 export const app = new Elysia({ prefix: '/api' })
   .use(betterAuth)
+  .use(auth)
   .get('/', 'Hello Nextjs')
   .post('/', ({ body }) => body, {
     body: t.Object({
@@ -11,5 +13,9 @@ export const app = new Elysia({ prefix: '/api' })
     }),
   });
 
-export const GET = app.fetch;
-export const POST = app.fetch;
+export const GET = app.handle;
+export const POST = app.handle;
+export const PUT = app.handle;
+export const PATCH = app.handle;
+export const DELETE = app.handle;
+export const OPTIONS = app.handle;
