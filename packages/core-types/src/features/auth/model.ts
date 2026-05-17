@@ -50,3 +50,28 @@ export const GetSessionResponse = t.Object({
 export const GetSessionInvalidate = t.Object({
   message: t.Literal('Not authenticated'),
 });
+
+export const ForgotPasswordModel = t.Object({
+  email: t.String({ format: 'email', error: 'Valid email is required' }),
+});
+
+export const ForgotPasswordResponse = t.Object({
+  message: t.Literal('Password reset email sent'),
+});
+
+export const ForgotPasswordInvalidate = t.Object({
+  message: t.String(),
+});
+
+export const ResetPasswordModel = t.Object({
+  token: t.String({ minLength: 1 }),
+  newPassword: t.String({ minLength: 8, error: 'Password must be at least 8 characters' }),
+});
+
+export const ResetPasswordResponse = t.Object({
+  message: t.Literal('Password reset successfully'),
+});
+
+export const ResetPasswordInvalidate = t.Object({
+  message: t.String(),
+});

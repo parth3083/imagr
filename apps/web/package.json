@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "@repo/core-types": "*",
+    "@repo/email": "*",
     "@repo/logger": "*",
     "@repo/ui": "*",
     "@tailwindcss/postcss": "^4",

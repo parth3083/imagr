@@ -12,6 +12,11 @@ export const betterAuth = new Elysia({ name: 'better-auth' })
       allowedHeaders: ['Content-Type', 'Authorization'],
     }),
   )
+  // Mount the full Better Auth handler so OAuth flows (/api/auth/sign-in/social,
+  // /api/auth/callback/*, etc.) are accessible. The hand-crafted email routes in
+  // features/auth/index.ts take priority for those specific paths; this catch-all
+  // covers everything else Better Auth needs (OAuth, session, CSRF, etc.).
+  .all('/auth/*', ({ request }) => auth.handler(request))
   .macro({
     auth: {
       async resolve({ status, request: { headers } }) {

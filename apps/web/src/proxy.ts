@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const PUBLIC_ONLY = new Set(['/sign-in', '/sign-up']);
-const PUBLIC_ALL = new Set(['/', '/sign-in', '/sign-up']);
+const PUBLIC_ONLY = new Set(['/sign-in', '/sign-up', '/forgot-password', '/reset-password']);
+const PUBLIC_ALL = new Set(['/', '/sign-in', '/sign-up', '/forgot-password', '/reset-password']);
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

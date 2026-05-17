@@ -13,6 +13,7 @@ import {
   FolderOpen,
   Image as ImageIcon,
 } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -88,11 +89,11 @@ const Page = () => {
               </span>
             </h1>
             <p className="animate-fade-in-up text-muted-foreground mt-6 text-lg leading-relaxed [animation-delay:100ms] sm:text-xl">
-              Writing good prompts shouldn't feel like guesswork. Imagr turns your raw ideas into
-              weighted, optimized, production-grade prompts — automatically.
+              Writing good prompts shouldn&apos;t feel like guesswork. Imagr turns your raw ideas
+              into weighted, optimized, production-grade prompts — automatically.
             </p>
             <p className="animate-fade-in-up text-muted-foreground/80 mt-4 text-sm italic [animation-delay:200ms]">
-              No more copy-pasting from Discord. No more "please try again." Just results.
+              No more copy-pasting from Discord. No more &quot;please try again.&quot; Just results.
             </p>
             <div className="animate-fade-in-up mt-10 flex flex-col items-center justify-center gap-6 [animation-delay:300ms] sm:flex-row">
               <Button
@@ -330,21 +331,27 @@ const Page = () => {
       {/* Testimonial Section */}
       <section className="container mx-auto px-4 pb-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
-          <Card className="animate-fade-in-up border-primary/20 from-primary/5 via-accent/30 to-accent/20 ring-border/50 border-2 bg-gradient-to-br shadow-2xl ring-1">
+          <Card className="animate-fade-in-up border-primary/20 from-primary/5 via-accent/30 to-accent/20 ring-border/50 border-2 bg-linear-to-br shadow-2xl ring-1">
             <CardContent className="p-8 sm:p-12">
               <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-start">
-                <div className="relative flex-shrink-0">
-                  <div className="from-primary via-primary to-primary/70 text-primary-foreground ring-primary/20 flex h-28 w-28 items-center justify-center rounded-2xl bg-gradient-to-br text-5xl font-bold shadow-xl ring-4 transition-all hover:scale-105 hover:shadow-2xl">
-                    P
+                <div className="relative shrink-0 bg-transparent">
+                  <div className="relative h-28 w-28 overflow-hidden transition-all">
+                    <Image
+                      src="https://res.cloudinary.com/do8etu7ml/image/upload/v1779020909/parthImage_aemkn4.jpg"
+                      width={500}
+                      height={500}
+                      alt="Parth Image"
+                      className="h-full w-full bg-transparent object-fill"
+                    />
                   </div>
-                  <div className="ring-background absolute -right-2 -bottom-2 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-pink-600 text-white shadow-lg ring-4">
+                  <div className="ring-background absolute -right-2 -bottom-2 flex h-10 w-10 items-center justify-center rounded-full bg-linear-to-br from-pink-500 to-pink-600 text-white shadow-lg ring-4">
                     <Sparkles className="h-5 w-5 animate-pulse" />
                   </div>
                 </div>
                 <div className="flex-1 text-center sm:text-left">
                   <blockquote className="text-lg leading-relaxed font-medium sm:text-xl lg:text-2xl">
-                    "I spent years writing prompts the hard way. Imagr exists because I got tired of
-                    wasting tokens on garbage output."
+                    &quot;Writing prompts the hard way. Imagr exists because I got tired of wasting
+                    tokens on garbage output.&quot;
                   </blockquote>
                   <div className="mt-6">
                     <div className="text-lg font-bold">Parth (pr.sh)</div>
