@@ -129,12 +129,11 @@ const Page = () => {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               {[
-                { name: 'GPT-4o', color: 'green' },
-                { name: 'Claude 3.5', color: 'orange' },
+                { name: 'Nano Banana', color: 'yellow' },
                 { name: 'Midjourney', color: 'blue' },
                 { name: 'DALL-E 3', color: 'purple' },
                 { name: 'Stable Diff', color: 'pink' },
-                { name: 'Flux', color: 'yellow' },
+                { name: 'Flux', color: 'green' },
               ].map((model) => (
                 <span
                   key={model.name}
@@ -248,9 +247,8 @@ const Page = () => {
               <CardContent className="flex flex-col space-y-2 pt-6">
                 {[
                   { icon: Sparkles, label: 'New Compilation', href: '/sign-up' },
-                  { icon: Sword, label: 'Start Arena Battle', href: '/sign-up' },
                   { icon: Palette, label: 'Browse Styles', href: '/sign-up' },
-                  { icon: FolderOpen, label: 'My Projects', href: '/sign-up' },
+                  { icon: FolderOpen, label: 'History', href: '/sign-up' },
                 ].map((item, index) => (
                   <Link key={item.label} href={item.href}>
                     <button
@@ -337,7 +335,7 @@ const Page = () => {
                 <div className="relative shrink-0 bg-transparent">
                   <div className="relative h-28 w-28 overflow-hidden transition-all">
                     <Image
-                      src="https://res.cloudinary.com/do8etu7ml/image/upload/v1779020909/parthImage_aemkn4.jpg"
+                      src="https://res.cloudinary.com/do8etu7ml/image/upload/v1779029829/picofme_s8g4ip.png"
                       width={500}
                       height={500}
                       alt="Parth Image"

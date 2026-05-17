@@ -27,7 +27,7 @@ export const metadata: Metadata = {
       'Imagr turns your raw ideas into production-grade AI image prompts. Pick a model, choose a style, and let AI compile the perfect prompt.',
     images: [
       {
-        url: 'https://res.cloudinary.com/do8etu7ml/image/upload/v1779021000/Imagr-preview_synuzn.webp',
+        url: 'https://res.cloudinary.com/do8etu7ml/image/upload/v1779021000/Imagr-preview_synuzn.jpg',
         width: 1200,
         height: 630,
         alt: 'Imagr — AI Prompt Compiler',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     description:
       'Imagr turns your raw ideas into production-grade AI image prompts. Pick a model, choose a style, and let AI compile the perfect prompt.',
     images: [
-      'https://res.cloudinary.com/do8etu7ml/image/upload/v1779021000/Imagr-preview_synuzn.webp',
+      'https://res.cloudinary.com/do8etu7ml/image/upload/v1779021000/Imagr-preview_synuzn.jpg',
     ],
   },
 };

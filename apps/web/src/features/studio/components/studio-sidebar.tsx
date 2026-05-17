@@ -18,6 +18,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@repo/ui/components/ui/sidebar';
+import { useQueryClient } from '@tanstack/react-query';
 import { History, Image as ImageIcon, LogOut, MoreVertical, Palette, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -33,6 +34,7 @@ const workspaceItems = [
 export function StudioSidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { data: user } = useCurrentUser();
 
   const displayName = user?.name || '';
@@ -41,7 +43,10 @@ export function StudioSidebar() {
 
   const handleSignOut = async () => {
     try {
-      await fetch('/api/auth/sign-out', { method: 'POST', credentials: 'include' });
+      const res = await fetch('/api/auth/sign-out', { method: 'POST', credentials: 'include' });
+      if (res.ok) {
+        queryClient.clear();
+      }
     } finally {
       router.push('/');
     }

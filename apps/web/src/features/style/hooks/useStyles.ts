@@ -70,6 +70,7 @@ export function useCreateStyle() {
     onSuccess: async () => {
       toast.success('Style created');
       await queryClient.invalidateQueries({ queryKey: ['styles'] });
+      await queryClient.invalidateQueries({ queryKey: ['styles-list'] });
     },
     onError: (error: Error) => {
       toast.error(error.message);
