@@ -13,13 +13,20 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
+    "baseUrl": ".",
+    "types": ["node", "react", "react-dom", "vitest/globals", "@testing-library/jest-dom"],
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@repo/core-types": ["../../packages/core-types/src"],
+      "@repo/core-types/*": ["../../packages/core-types/src/features/*/index.ts"],
+      "@repo/ui": ["../../packages/ui"],
+      "@repo/ui/*": ["../../packages/ui/*"],
+      "@repo/logger": ["../../packages/logger"]
     }
   },
   "include": [
@@ -30,5 +37,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"]
 }

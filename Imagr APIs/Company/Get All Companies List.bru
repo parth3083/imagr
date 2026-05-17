@@ -1,0 +1,27 @@
+meta {
+  name: Get All Companies List
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{server}}/company
+  body: json
+  auth: bearer
+}
+
+headers {
+  Cookie: 	better-auth.session_token=DkzkmHmHUve3sFAWeUYXkF5hbbfYj441.2KteUpNOVThGe%2Fw%2F9VCECvyyGhsXx649leqdxegTNwQ%3D; Max-Age=604800; Path=/; HttpOnly; SameSite=Lax
+}
+
+body:json {
+  {
+    "name":"OpenAI",
+    "website":"https://openai.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
