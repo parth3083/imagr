@@ -41,13 +41,11 @@ export function StudioSidebar() {
   const initials = displayName.charAt(0).toUpperCase();
 
   const handleSignOut = async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push('/sign-in');
-        },
-      },
-    });
+    try {
+      await fetch('/api/auth/sign-out', { method: 'POST', credentials: 'include' });
+    } finally {
+      router.push('/');
+    }
   };
 
   return (
