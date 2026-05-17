@@ -22,23 +22,22 @@ import { History, Image as ImageIcon, LogOut, MoreVertical, Palette, Sparkles } 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
-import { authClient } from '@/lib/auth-client';
+import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 
 const workspaceItems = [
   { title: 'Studio', icon: Sparkles, href: '/dashboard/studio' },
-  { title: 'Library', icon: Palette, href: '/dashboard/library' },
+  { title: 'Styles', icon: Palette, href: '/dashboard/library' },
   { title: 'History', icon: History, href: '/dashboard/history' },
 ];
 
 export function StudioSidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { data: session } = authClient.useSession();
+  const { data: user } = useCurrentUser();
 
-  const user = session?.user;
-  const displayName = user?.name || 'User';
+  const displayName = user?.name || '';
   const displayEmail = user?.email || '';
-  const initials = displayName.charAt(0).toUpperCase();
+  const initials = displayName.charAt(0).toUpperCase() || '?';
 
   const handleSignOut = async () => {
     try {

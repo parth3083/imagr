@@ -11,7 +11,8 @@ import {
 } from '@repo/ui/components/ui/select';
 import { Skeleton } from '@repo/ui/components/ui/skeleton';
 import { Textarea } from '@repo/ui/components/ui/textarea';
-import { Check, Copy, Loader2, Sparkles } from 'lucide-react';
+import { AlertCircle, Check, Copy, Loader2, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import { useModels, useStylesList, useWeightPrompt } from './hooks';
@@ -29,6 +30,7 @@ export function StudioPage() {
 
   const models = modelsData ?? [];
   const styles = stylesData ?? [];
+  const hasNoStyles = !stylesLoading && styles.length === 0;
 
   const copyToClipboard = async (text: string, field: string) => {
     try {
@@ -65,6 +67,22 @@ export function StudioPage() {
         <div className="mx-auto grid h-full max-w-7xl gap-6 p-6 lg:grid-cols-[1fr_480px]">
           {/* Left Column */}
           <div className="flex flex-col gap-4">
+            {hasNoStyles && (
+              <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-800 dark:bg-amber-950/30">
+                <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium text-amber-800 dark:text-amber-300">
+                    No styles yet
+                  </p>
+                  <p className="mt-0.5 text-xs text-amber-700 dark:text-amber-400">
+                    You need at least one style to compile prompts.{' '}
+                    <Link href="/dashboard/library" className="font-medium underline">
+                      Create your first style →
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            )}
             <Card className="flex-shrink-0">
               <CardHeader>
                 <CardTitle className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
@@ -100,9 +118,21 @@ export function StudioPage() {
 
               <div className="space-y-2">
                 <label className="text-sm font-medium">Style Preset</label>
-                <Select value={styleId} onValueChange={setStyleId} disabled={stylesLoading}>
+                <Select
+                  value={styleId}
+                  onValueChange={setStyleId}
+                  disabled={stylesLoading || hasNoStyles}
+                >
                   <SelectTrigger className="border-primary">
-                    <SelectValue placeholder={stylesLoading ? 'Loading...' : 'Select a style'} />
+                    <SelectValue
+                      placeholder={
+                        stylesLoading
+                          ? 'Loading...'
+                          : hasNoStyles
+                            ? 'No styles — create one first'
+                            : 'Select a style'
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {styles.map((style) => (
