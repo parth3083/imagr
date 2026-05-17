@@ -1,0 +1,20 @@
+meta {
+  name: Get Companies By Id
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{server}}/company/6a0873b735e764c7884934cd
+  body: json
+  auth: bearer
+}
+
+headers {
+  Cookie: better-auth.session_token=DkzkmHmHUve3sFAWeUYXkF5hbbfYj441.2KteUpNOVThGe%2Fw%2F9VCECvyyGhsXx649leqdxegTNwQ%3D; Max-Age=604800; Path=/; HttpOnly; SameSite=Lax
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -27,7 +27,7 @@ export function useSignIn(options?: UseSignInOptions) {
       toast.success('Login successful! Redirecting...');
       options?.onSuccess?.();
       setTimeout(() => {
-        router.push(options?.redirectTo || '/');
+        router.push(options?.redirectTo || '/dashboard/studio');
       }, 1000);
     },
     onError: (error: Error) => {

@@ -4,7 +4,6 @@ export interface ICompany extends Document {
   _id: Types.ObjectId;
   name: string;
   website: string;
-  openai: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,11 +21,6 @@ const companySchema = new Schema<ICompany>(
       required: [true, 'Website is required'],
       trim: true,
       lowercase: true,
-    },
-    openai: {
-      type: String,
-      required: [true, 'OpenAI API key is required'],
-      trim: true,
     },
   },
   {

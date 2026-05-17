@@ -2513,15 +2513,15 @@ I'll create the database models and schemas for the image generation system base
 <content lines="1-56">
 1 | import mongoose from 'mongoose';
 2 |
-3 | const MONGODB*URI = process.env.DATABASE_URL;
+3 | const MONGODB\*URI = process.env.DATABASE*URL;
 4 |
 5 | if (!MONGODB_URI) {
 6 | throw new Error('Please define the DATABASE_URL environment variable inside .env');
 7 | }
 8 |
-9 | /\**
-10 | _ Global is used here to maintain a cached connection across hot reloads
-11 | _ in development. This prevents connections growing exponentially
+9 | /\*\*
+10 | * Global is used here to maintain a cached connection across hot reloads
+11 | \_ in development. This prevents connections growing exponentially
 12 | \_ during API Route usage.
 13 | \*/
 14 | interface MongooseCache {

@@ -1,19 +1,19 @@
 meta {
-  name: Elysia Integration test copy
+  name: User Sign In
   type: http
   seq: 3
 }
 
 post {
-  url: http://localhost:3001/api
+  url: {{server}}/auth/sign-in
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "name":"Parth"
-    
+    "email":"parthbrajput30@gmail.com",
+    "password":"123456@mB"
   }
 }
 

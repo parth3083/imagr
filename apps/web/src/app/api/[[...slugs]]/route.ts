@@ -2,16 +2,24 @@ import { Elysia, t } from 'elysia';
 
 import { auth } from '@/features/auth';
 import { betterAuth } from '@/features/auth/utils/elysia-better-auth';
+import { company } from '@/features/company';
+import { history } from '@/features/history';
+import { lockWord } from '@/features/lock-word';
+import { aiModel } from '@/features/model';
+import { promptEnhancer } from '@/features/prompt';
+import { promptWeighter } from '@/features/prompt/weight';
+import { style } from '@/features/style';
 
 export const app = new Elysia({ prefix: '/api' })
   .use(betterAuth)
   .use(auth)
-  .get('/', 'Hello Nextjs')
-  .post('/', ({ body }) => body, {
-    body: t.Object({
-      name: t.String(),
-    }),
-  });
+  .use(company)
+  .use(aiModel)
+  .use(style)
+  .use(lockWord)
+  .use(promptEnhancer)
+  .use(promptWeighter)
+  .use(history);
 
 export const GET = app.handle;
 export const POST = app.handle;

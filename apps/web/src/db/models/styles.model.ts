@@ -2,43 +2,55 @@ import { Schema, model, models, type Document, type Types } from 'mongoose';
 
 export interface IStyle extends Document {
   _id: Types.ObjectId;
+  userId: string;
   name: string;
-  styleSystemPrompt: string;
-  modelId: Types.ObjectId;
-  tags: string[];
+  type: string;
+  basicPrompt: string;
+  extendedPrompt: string;
+  isSaved: boolean;
+  usageCount: number;
   createdAt: Date;
   updatedAt: Date;
 }
 
 const styleSchema = new Schema<IStyle>(
   {
+    userId: {
+      type: String,
+      required: [true, 'User ID is required'],
+      index: true,
+    },
     name: {
       type: String,
       required: [true, 'Style name is required'],
       trim: true,
       maxlength: [100, 'Style name cannot exceed 100 characters'],
     },
-    styleSystemPrompt: {
+    type: {
       type: String,
-      required: [true, 'Style system prompt is required'],
+      required: [true, 'Style type is required'],
       trim: true,
-      maxlength: [2000, 'Style system prompt cannot exceed 2000 characters'],
+      maxlength: [100, 'Style type cannot exceed 100 characters'],
+      default: 'custom',
     },
-    modelId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Model',
-      required: [true, 'Model ID is required'],
-      index: true,
+    basicPrompt: {
+      type: String,
+      required: [true, 'Basic prompt is required'],
+      trim: true,
     },
-    tags: {
-      type: [String],
-      default: [],
-      validate: {
-        validator: function (tags: string[]) {
-          return tags.every((tag: string) => tag.length <= 50);
-        },
-        message: 'Each tag cannot exceed 50 characters',
-      },
+    extendedPrompt: {
+      type: String,
+      required: [true, 'Extended prompt is required'],
+      trim: true,
+    },
+    isSaved: {
+      type: Boolean,
+      default: false,
+    },
+    usageCount: {
+      type: Number,
+      default: 0,
+      min: [0, 'Usage count cannot be negative'],
     },
   },
   {
@@ -47,8 +59,9 @@ const styleSchema = new Schema<IStyle>(
   },
 );
 
-// Compound indexes for efficient queries
-styleSchema.index({ modelId: 1, name: 1 });
-styleSchema.index({ tags: 1 });
+// Indexes for efficient queries
+styleSchema.index({ userId: 1, createdAt: -1 });
+styleSchema.index({ userId: 1, name: 1 }, { unique: true });
+styleSchema.index({ userId: 1, isSaved: 1, createdAt: -1 });
 
 export const Style = models.Style || model<IStyle>('Style', styleSchema);

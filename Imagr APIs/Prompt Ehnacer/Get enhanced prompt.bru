@@ -1,0 +1,26 @@
+meta {
+  name: Get enhanced prompt
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{server}}/prompt-enhance
+  body: json
+  auth: inherit
+}
+
+headers {
+  Cookie: better-auth.session_token=qSR219fZ6WgnAeTuWpiGqLoVHllxligP.jy7%2BCXk4mvVTX2LTbySuSzXJm%2BOIdfOjMl%2FPb5witms%3D; Max-Age=604800; Path=/; HttpOnly; SameSite=Lax
+}
+
+body:json {
+  {
+    "prompt":"in a vibrant anime style, with expressive eyes, dynamic lighting, clean lineart, colorful shading, detailed hair, dramatic composition, and a high-quality cel-shaded illustration look"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
