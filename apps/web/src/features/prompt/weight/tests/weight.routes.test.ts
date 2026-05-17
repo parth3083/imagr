@@ -85,8 +85,8 @@ describe('Prompt Weight Routes', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           prompt: 'a futuristic bike in rain',
-          model_name: 'Flux Dev',
-          style_name: 'Cinematic',
+          model_id: 'model-1',
+          style_id: 'style-1',
           creative_tone: 65,
         }),
       }),
@@ -96,8 +96,8 @@ describe('Prompt Weight Routes', () => {
     expect(await response.json()).toEqual(mockResponse);
     expect(PromptWeightService.generateWeightedPrompt).toHaveBeenCalledWith({
       prompt: 'a futuristic bike in rain',
-      model_name: 'Flux Dev',
-      style_name: 'Cinematic',
+      model_id: 'model-1',
+      style_id: 'style-1',
       creative_tone: 65,
     });
   });
@@ -114,8 +114,8 @@ describe('Prompt Weight Routes', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           prompt: 'test prompt',
-          model_name: 'Unknown',
-          style_name: 'Cinematic',
+          model_id: 'unknown-model',
+          style_id: 'style-1',
           creative_tone: 50,
         }),
       }),
@@ -132,8 +132,8 @@ describe('Prompt Weight Routes', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           prompt: 'test prompt',
-          model_name: 'Flux Dev',
-          style_name: 'Cinematic',
+          model_id: 'model-1',
+          style_id: 'style-1',
           creative_tone: 120,
         }),
       }),

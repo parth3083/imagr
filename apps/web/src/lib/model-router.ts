@@ -1,6 +1,6 @@
 import type { WeightedToken } from '@repo/core-types/prompt';
 
-export type ModelTarget = 'stable_diffusion' | 'flux' | 'comfyui' | 'gpt_image';
+export type ModelTarget = 'stable_diffusion' | 'flux' | 'comfyui' | 'gpt_image' | 'gemini_nano';
 
 export interface ModelFormattedOutput {
   positive: string;
@@ -77,6 +77,33 @@ function formatForGptImage(tokens: WeightedToken[], negativePrompt: string): Mod
   };
 }
 
+// ─── Gemini Nano ──────────────────────────────────────────────────────────────
+
+function formatForGeminiNano(
+  tokens: WeightedToken[],
+  negativePrompt: string,
+): ModelFormattedOutput {
+  const sorted = [...tokens].sort((a, b) => b.weight - a.weight);
+
+  const tierOrder: WeightedToken['tier'][] = [
+    'anchor',
+    'scene_context',
+    'mood_driver',
+    'style',
+    'filler',
+  ];
+  const positive = tierOrder
+    .flatMap((tier) => sorted.filter((t) => t.tier === tier).map((t) => t.token))
+    .join(', ');
+
+  const negative = negativePrompt
+    .replace(/\(([^:)]+):[0-9.]+\)/g, '$1')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+
+  return { positive, negative };
+}
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**
@@ -88,6 +115,7 @@ function formatForGptImage(tokens: WeightedToken[], negativePrompt: string): Mod
  * - ComfyUI: Same as Stable Diffusion
  * - FLUX: Plain text, weight determines order
  * - GPT Image: Natural language with embedded negatives
+ * - Gemini Nano: Clean natural language, tier-ordered, separate negative field
  *
  * @param tokens - Array of weighted tokens from the weighting system
  * @param negativePrompt - Negative prompt string
@@ -109,6 +137,8 @@ export function formatForModel(
       return formatForFlux(tokens, negativePrompt);
     case 'gpt_image':
       return formatForGptImage(tokens, negativePrompt);
+    case 'gemini_nano':
+      return formatForGeminiNano(tokens, negativePrompt);
     default: {
       const exhaustive: never = target;
       throw new Error(`Unknown model target: ${exhaustive}`);

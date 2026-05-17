@@ -22,10 +22,10 @@ vi.mock('@/db/db', () => ({
 
 vi.mock('@/db/models', () => ({
   Model: {
-    findOne: vi.fn(),
+    findById: vi.fn(),
   },
   Style: {
-    findOne: vi.fn(),
+    findById: vi.fn(),
   },
   LockWord: {
     find: vi.fn(),
@@ -95,11 +95,11 @@ describe('PromptWeightService', () => {
     };
 
     vi.mocked(PromptService.getExpandedPrompt).mockResolvedValue(enhancement);
-    vi.mocked(Model.findOne).mockResolvedValue({ _id: 'model-1', name: 'Flux Dev' } as never);
-    vi.mocked(Style.findOne).mockResolvedValue({
+    vi.mocked(Model.findById).mockResolvedValue({ _id: 'model-1', name: 'Flux Dev' } as never);
+    vi.mocked(Style.findById).mockResolvedValue({
       _id: 'style-1',
       name: 'Cinematic',
-      styleSystemPrompt: 'Cinematic style weighting',
+      extendedPrompt: 'Cinematic style weighting',
     } as never);
 
     const select = vi
@@ -114,8 +114,8 @@ describe('PromptWeightService', () => {
 
     const result = await PromptWeightService.generateWeightedPrompt({
       prompt: 'a futuristic bike in rain',
-      model_name: 'Flux Dev',
-      style_name: 'Cinematic',
+      model_id: 'model-1',
+      style_id: 'style-1',
       creative_tone: 65,
     });
 
@@ -123,8 +123,8 @@ describe('PromptWeightService', () => {
     expect(PromptService.getExpandedPrompt).toHaveBeenCalledWith({
       prompt: 'a futuristic bike in rain',
     });
-    expect(Model.findOne).toHaveBeenCalled();
-    expect(Style.findOne).toHaveBeenCalled();
+    expect(Model.findById).toHaveBeenCalledWith('model-1');
+    expect(Style.findById).toHaveBeenCalledWith('style-1');
     expect(LockWord.find).toHaveBeenCalledWith({ styleId: 'style-1' });
     expect(generateObject).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -158,15 +158,15 @@ describe('PromptWeightService', () => {
       original_prompt: 'test prompt',
       expanded_prompt_text: 'expanded prompt',
     });
-    vi.mocked(Model.findOne).mockResolvedValue(null);
+    vi.mocked(Model.findById).mockResolvedValue(null);
 
     await expect(
       PromptWeightService.generateWeightedPrompt({
         prompt: 'test prompt',
-        model_name: 'Missing Model',
-        style_name: 'Cinematic',
+        model_id: 'missing-model',
+        style_id: 'style-1',
         creative_tone: 40,
       }),
-    ).rejects.toThrow('Model "Missing Model" not found');
+    ).rejects.toThrow('Model not found');
   });
 });

@@ -1,0 +1,27 @@
+meta {
+  name: Create Style
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{server}}/style
+  body: json
+  auth: inherit
+}
+
+headers {
+  Cookie: better-auth.session_token=qSR219fZ6WgnAeTuWpiGqLoVHllxligP.jy7%2BCXk4mvVTX2LTbySuSzXJm%2BOIdfOjMl%2FPb5witms%3D; Max-Age=604800; Path=/; HttpOnly; SameSite=Lax
+}
+
+body:json {
+  {
+    "name":"Anime",
+    "styleSystemPrompt":"Vivid and saturated colors, multi-layered colorful shading, high contrast between warm highlights and cool shadows., Dramatic framing, dynamic low-angle perspective, shallow depth of field focusing on the character's face., Fine hair strands, crisp line weight variation, sparkling eye highlights, and clean digital gradients., Dynamic lighting, high-contrast rim light, colorful ambient bounce, and dramatic shadow placement to define form., Energetic, dramatic, and intensely emotional with an upbeat yet cinematic atmosphere., A vibrant, stylized background with floating particles and energetic light trails, suggesting a high-action urban or fantasy setting., High-quality cel-shaded illustration, clean sharp lineart, vibrant modern anime aesthetic, professional key visual style., An anime protagonist with large expressive eyes featuring complex iris patterns and voluminous, intricately detailed hair."
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -51,7 +51,7 @@ export default function HomePage() {
                 <CardTitle className="text-xl">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 pt-6">
-                <Link href="/studio">
+                <Link href="/dashboard/studio">
                   <button className="group bg-background ring-border/50 hover:ring-primary/30 flex w-full items-center justify-between rounded-xl p-4 text-left shadow-sm ring-1 transition-all hover:scale-[1.02] hover:shadow-lg">
                     <div className="flex items-center gap-3">
                       <div className="from-primary/20 to-primary/10 text-primary ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br ring-1">
@@ -63,7 +63,7 @@ export default function HomePage() {
                   </button>
                 </Link>
 
-                <Link href="/arena">
+                <Link href="/dashboard/arena">
                   <button className="group bg-background ring-border/50 hover:ring-primary/30 flex w-full items-center justify-between rounded-xl p-4 text-left shadow-sm ring-1 transition-all hover:scale-[1.02] hover:shadow-lg">
                     <div className="flex items-center gap-3">
                       <div className="from-primary/20 to-primary/10 text-primary ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br ring-1">
@@ -75,7 +75,7 @@ export default function HomePage() {
                   </button>
                 </Link>
 
-                <Link href="/library">
+                <Link href="/dashboard/library">
                   <button className="group bg-background ring-border/50 hover:ring-primary/30 flex w-full items-center justify-between rounded-xl p-4 text-left shadow-sm ring-1 transition-all hover:scale-[1.02] hover:shadow-lg">
                     <div className="flex items-center gap-3">
                       <div className="from-primary/20 to-primary/10 text-primary ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br ring-1">
@@ -87,7 +87,7 @@ export default function HomePage() {
                   </button>
                 </Link>
 
-                <Link href="/projects">
+                <Link href="/dashboard/projects">
                   <button className="group bg-background ring-border/50 hover:ring-primary/30 flex w-full items-center justify-between rounded-xl p-4 text-left shadow-sm ring-1 transition-all hover:scale-[1.02] hover:shadow-lg">
                     <div className="flex items-center gap-3">
                       <div className="from-primary/20 to-primary/10 text-primary ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br ring-1">

@@ -5,6 +5,7 @@ import {
 import { Elysia, t } from 'elysia';
 
 import { authMiddleware } from '@/features/auth/auth-middleware';
+import { getUser } from '@/lib/get-user';
 
 import { PromptWeightService } from './service';
 
@@ -28,13 +29,14 @@ import { PromptWeightService } from './service';
  */
 export const promptWeighter = new Elysia({ prefix: '/weight' }).use(authMiddleware).post(
   '/',
-  async ({ body, set }) => {
+  async ({ body, set, request }) => {
     try {
       // This single call handles the entire pipeline:
       // 1. Enhance prompt → structured blueprint
       // 2. Weight blueprint → weighted tokens
       // 3. Format for model → model-specific output
-      return await PromptWeightService.generateWeightedPrompt(body);
+      const user = await getUser(request.headers);
+      return await PromptWeightService.generateWeightedPrompt(body, user.id);
     } catch (error) {
       PromptWeightService.logError(error);
       set.status = PromptWeightService.getErrorStatus(error);

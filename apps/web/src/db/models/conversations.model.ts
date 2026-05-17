@@ -4,7 +4,7 @@ export interface IConversation extends Document {
   _id: Types.ObjectId;
   userId: string;
   modelId: Types.ObjectId;
-  promptStyleId: Types.ObjectId;
+  promptStyleId?: Types.ObjectId;
   styleId: Types.ObjectId;
   inputPrompt: string;
   outputPrompt: string;
@@ -12,7 +12,7 @@ export interface IConversation extends Document {
   qualityScore: number;
   hotWarning: string;
   errorWarning: string;
-  appleImage: string;
+  appleImage?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -33,7 +33,7 @@ const conversationSchema = new Schema<IConversation>(
     promptStyleId: {
       type: Schema.Types.ObjectId,
       ref: 'PromptStyle',
-      required: [true, 'Prompt Style ID is required'],
+      required: false,
       index: true,
     },
     styleId: {
@@ -46,19 +46,19 @@ const conversationSchema = new Schema<IConversation>(
       type: String,
       required: [true, 'Input prompt is required'],
       trim: true,
-      maxlength: [2000, 'Input prompt cannot exceed 2000 characters'],
+      maxlength: [5000, 'Input prompt cannot exceed 5000 characters'],
     },
     outputPrompt: {
       type: String,
       required: [true, 'Output prompt is required'],
       trim: true,
-      maxlength: [2000, 'Output prompt cannot exceed 2000 characters'],
+      maxlength: [5000, 'Output prompt cannot exceed 5000 characters'],
     },
     negativePrompt: {
       type: String,
       default: '',
       trim: true,
-      maxlength: [1000, 'Negative prompt cannot exceed 1000 characters'],
+      maxlength: [2000, 'Negative prompt cannot exceed 2000 characters'],
     },
     qualityScore: {
       type: Number,
@@ -81,8 +81,9 @@ const conversationSchema = new Schema<IConversation>(
     },
     appleImage: {
       type: String,
-      required: [true, 'Apple image URL is required'],
+      required: false,
       trim: true,
+      default: '',
     },
   },
   {

@@ -36,8 +36,16 @@ async function connectDB(): Promise<typeof mongoose> {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
+    cached.promise = mongoose.connect(MONGODB_URI!, opts).then(async (mongoose) => {
       console.log('Database connected successfully');
+      // Drop stale global unique index on styles.name that enforced cross-user uniqueness.
+      // The schema now uses a compound index {userId, name} so same name is allowed across users.
+      try {
+        await mongoose.connection.collection('styles').dropIndex('name_1');
+        console.log('Dropped stale styles.name_1 index');
+      } catch {
+        // Index doesn't exist or already dropped — safe to ignore
+      }
       return mongoose;
     });
   }

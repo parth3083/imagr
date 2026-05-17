@@ -121,15 +121,15 @@ export const weightBlueprintRequestElysiaSchema = t.Object({
 
 export const weightedPromptRequestZodSchema = z.object({
   prompt: z.string().min(1).max(5000),
-  model_name: z.string().min(1).max(100),
-  style_name: z.string().min(1).max(100),
+  model_id: z.string().min(1),
+  style_id: z.string().min(1),
   creative_tone: z.number().int().min(0).max(100),
 });
 
 export const weightedPromptRequestElysiaSchema = t.Object({
   prompt: t.String({ minLength: 1, maxLength: 5000 }),
-  model_name: t.String({ minLength: 1, maxLength: 100 }),
-  style_name: t.String({ minLength: 1, maxLength: 100 }),
+  model_id: t.String({ minLength: 1 }),
+  style_id: t.String({ minLength: 1 }),
   creative_tone: t.Integer({ minimum: 0, maximum: 100 }),
 });
 
@@ -151,7 +151,7 @@ export const weightedPromptResponseZodSchema = z.object({
   }),
   weighting: weightedOutputZodSchema,
   model_output: modelFormattedOutputZodSchema,
-  model_target: z.enum(['stable_diffusion', 'flux', 'comfyui', 'gpt_image']),
+  model_target: z.enum(['stable_diffusion', 'flux', 'comfyui', 'gpt_image', 'gemini_nano']),
   model_name: z.string(),
   style_name: z.string(),
   creative_tone: z.number().int().min(0).max(100),
@@ -166,6 +166,7 @@ export const weightedPromptResponseElysiaSchema = t.Object({
     t.Literal('flux'),
     t.Literal('comfyui'),
     t.Literal('gpt_image'),
+    t.Literal('gemini_nano'),
   ]),
   model_name: t.String(),
   style_name: t.String(),

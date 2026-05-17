@@ -6,7 +6,7 @@ import { StudioSidebar } from '@/features/studio/components/studio-sidebar';
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <TooltipProvider>
-      <SidebarProvider defaultOpen={true}>
+      <SidebarProvider open={true}>
         <StudioSidebar />
         <SidebarInset className="flex flex-col">{children}</SidebarInset>
       </SidebarProvider>

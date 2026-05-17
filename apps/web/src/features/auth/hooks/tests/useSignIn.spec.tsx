@@ -3,16 +3,18 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { toast } from 'sonner';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { apiClient } from '@/lib/api-client';
-
 import { useSignIn } from '../useSignIn';
+
+// Create mock functions
+const mockPost = vi.fn();
+const mockPush = vi.fn();
 
 // Mock dependencies
 vi.mock('@/lib/api-client', () => ({
   apiClient: {
     auth: {
       'sign-in': {
-        post: vi.fn(),
+        post: mockPost,
       },
     },
   },
@@ -20,17 +22,24 @@ vi.mock('@/lib/api-client', () => ({
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
-    push: vi.fn(),
+    push: mockPush,
   }),
 }));
 
-vi.mock('sonner');
+vi.mock('sonner', () => ({
+  toast: {
+    success: vi.fn(),
+    error: vi.fn(),
+  },
+}));
 
 describe('useSignIn', () => {
   let queryClient: QueryClient;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockPost.mockReset();
+    mockPush.mockReset();
     queryClient = new QueryClient({
       defaultOptions: {
         queries: { retry: false },
@@ -52,7 +61,7 @@ describe('useSignIn', () => {
       error: null,
     };
 
-    vi.mocked(apiClient.auth['sign-in'].post).mockResolvedValue(mockResponse as any);
+    mockPost.mockResolvedValue(mockResponse);
 
     const { result } = renderHook(() => useSignIn(), { wrapper });
 
@@ -65,7 +74,7 @@ describe('useSignIn', () => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    expect(apiClient.auth['sign-in'].post).toHaveBeenCalledWith({
+    expect(mockPost).toHaveBeenCalledWith({
       email: 'test@example.com',
       password: 'password123',
     });
@@ -80,7 +89,7 @@ describe('useSignIn', () => {
       },
     };
 
-    vi.mocked(apiClient.auth['sign-in'].post).mockResolvedValue(mockError as any);
+    mockPost.mockResolvedValue(mockError);
 
     const { result } = renderHook(() => useSignIn(), { wrapper });
 
@@ -105,7 +114,7 @@ describe('useSignIn', () => {
       error: null,
     };
 
-    vi.mocked(apiClient.auth['sign-in'].post).mockResolvedValue(mockResponse as any);
+    mockPost.mockResolvedValue(mockResponse);
 
     const onSuccess = vi.fn();
     const { result } = renderHook(() => useSignIn({ onSuccess }), { wrapper });
@@ -130,7 +139,7 @@ describe('useSignIn', () => {
       },
     };
 
-    vi.mocked(apiClient.auth['sign-in'].post).mockResolvedValue(mockError as any);
+    mockPost.mockResolvedValue(mockError);
 
     const onError = vi.fn();
     const { result } = renderHook(() => useSignIn({ onError }), { wrapper });
@@ -155,7 +164,7 @@ describe('useSignIn', () => {
       },
     };
 
-    vi.mocked(apiClient.auth['sign-in'].post).mockResolvedValue(mockError as any);
+    mockPost.mockResolvedValue(mockError);
 
     const { result } = renderHook(() => useSignIn(), { wrapper });
 
@@ -180,7 +189,7 @@ describe('useSignIn', () => {
       error: null,
     };
 
-    vi.mocked(apiClient.auth['sign-in'].post).mockResolvedValue(mockResponse as any);
+    mockPost.mockResolvedValue(mockResponse);
 
     const { result } = renderHook(() => useSignIn({ redirectTo: '/dashboard' }), { wrapper });
 
@@ -192,7 +201,13 @@ describe('useSignIn', () => {
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true);
     });
+
+    // Wait for the setTimeout to execute
+    await waitFor(
+      () => {
+        expect(mockPush).toHaveBeenCalledWith('/dashboard');
+      },
+      { timeout: 2000 },
+    );
   });
 });
-
-// Made with Bob

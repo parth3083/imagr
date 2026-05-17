@@ -10,7 +10,7 @@ import {
 import { generateObject } from 'ai';
 
 import connectDB from '@/db/db';
-import { LockWord as LockWordModel, Model as AiModel, Style } from '@/db/models';
+import { Conversation, LockWord as LockWordModel, Model as AiModel, Style } from '@/db/models';
 import { logger } from '@/lib/logger';
 import { formatForModel, type ModelTarget } from '@/lib/model-router';
 import { WEIGHT_SYSTEM_PROMPT } from '@/prompts/weightSystemPrompt';
@@ -29,13 +29,6 @@ class PromptWeightError extends Error {
     super(message);
     this.name = 'PromptWeightError';
   }
-}
-
-/**
- * Escape special regex characters in a string for safe regex matching.
- */
-function escapeRegex(value: string) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 /**
@@ -107,6 +100,7 @@ function resolveModelTarget(modelName: string): ModelTarget {
   ) {
     return 'gpt_image';
   }
+  if (normalized.includes('gemini')) return 'gemini_nano';
 
   return 'stable_diffusion';
 }
@@ -169,6 +163,7 @@ export abstract class PromptWeightService {
    */
   static async generateWeightedPrompt(
     request: WeightedPromptRequest,
+    userId: string,
   ): Promise<WeightedPromptResponse> {
     await connectDB();
 
@@ -181,26 +176,19 @@ export abstract class PromptWeightService {
     });
     logger.info('Prompt enhancement completed with blueprint');
 
-    // Step 2: Fetch model and style information
-    logger.info('Step 2: Fetching model and style information');
-    const model = await AiModel.findOne({
-      name: new RegExp(`^${escapeRegex(request.model_name)}$`, 'i'),
-    });
+    // Step 2: Fetch model and style information in parallel
+    logger.info('Step 2: Fetching model and style by model_id and style_id');
+    const [model, style] = await Promise.all([
+      AiModel.findById(request.model_id),
+      Style.findById(request.style_id),
+    ]);
 
     if (!model) {
-      throw new PromptWeightError(`Model "${request.model_name}" not found`, 404);
+      throw new PromptWeightError(`Model not found`, 404);
     }
 
-    const style = await Style.findOne({
-      name: new RegExp(`^${escapeRegex(request.style_name)}$`, 'i'),
-      modelId: model._id,
-    });
-
     if (!style) {
-      throw new PromptWeightError(
-        `Style "${request.style_name}" not found for model "${request.model_name}"`,
-        404,
-      );
+      throw new PromptWeightError(`Style not found`, 404);
     }
 
     const lockWords = await LockWordModel.find({ styleId: style._id }).select('word format');
@@ -211,7 +199,7 @@ export abstract class PromptWeightService {
       blueprint: enhancement.blueprint,
       prompt_style: {
         name: style.name,
-        description: style.styleSystemPrompt,
+        description: style.extendedPrompt,
         weight_range: getWeightRange(request.creative_tone),
       },
       lock_words: lockWords.map((lockWord) => ({
@@ -230,6 +218,22 @@ export abstract class PromptWeightService {
       modelTarget,
     );
     logger.info(`Output formatted for ${modelTarget} model`);
+
+    // Step 5: Persist conversation for history
+    try {
+      await Conversation.create({
+        userId,
+        modelId: model._id,
+        styleId: style._id,
+        inputPrompt: request.prompt,
+        outputPrompt: modelOutput.positive,
+        negativePrompt: modelOutput.negative,
+        qualityScore: weighting.quality_score.overall,
+      });
+    } catch {
+      // Non-fatal: log but don't fail the request
+      logger.warn('Failed to save conversation record');
+    }
 
     return {
       enhancement,

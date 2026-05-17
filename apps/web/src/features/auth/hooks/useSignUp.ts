@@ -23,10 +23,10 @@ export function useSignUp(options?: UseSignUpOptions) {
       return result;
     },
     onSuccess: () => {
-      toast.success('Account created successfully! Redirecting to sign in...');
+      toast.success('Account created! Taking you to Studio...');
       options?.onSuccess?.();
       setTimeout(() => {
-        router.push('/sign-in');
+        router.push('/dashboard/studio');
       }, 1500);
     },
     onError: (error: Error) => {

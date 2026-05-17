@@ -25,13 +25,13 @@ const Page = () => {
 
   useEffect(() => {
     if (session?.user) {
-      router.push('/home');
+      router.push('/dashboard/studio');
     }
   }, [session, router]);
 
   const handleOpenStudio = () => {
     if (session?.user) {
-      router.push('/home');
+      router.push('/dashboard/studio');
     } else {
       router.push('/sign-up');
     }
@@ -61,7 +61,8 @@ const Page = () => {
             <Link href="/sign-in">
               <Button
                 size="sm"
-                className="hover:shadow-primary/25 gap-2 shadow-md transition-all hover:shadow-lg"
+                variant="outline"
+                className="group bg-accent hover:bg-accent/80 border-border gap-2 shadow-md transition-all hover:scale-105 hover:shadow-lg"
               >
                 Sign In
                 <ArrowRight className="h-4 w-4" />
@@ -370,9 +371,10 @@ const Page = () => {
             <Button
               size="lg"
               onClick={handleOpenStudio}
-              className="group hover:shadow-primary/40 h-16 gap-3 px-12 text-lg font-semibold shadow-2xl transition-all hover:scale-105 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]"
+              variant="outline"
+              className="group bg-accent hover:bg-accent/80 border-border h-14 gap-2 px-8 text-base shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
             >
-              <Sparkles className="h-6 w-6 transition-transform group-hover:rotate-12" />
+              <Sparkles className="h-5 w-5 transition-transform group-hover:rotate-12" />
               Open Studio
             </Button>
           </div>
