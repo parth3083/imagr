@@ -6,10 +6,15 @@ meta {
 
 post {
   url: {{server}}/model
-  body: none
+  body: json
   auth: inherit
+}
+
+headers {
+  Cookie: better-auth.session_token=DkzkmHmHUve3sFAWeUYXkF5hbbfYj441.2KteUpNOVThGe%2Fw%2F9VCECvyyGhsXx649leqdxegTNwQ%3D; Max-Age=604800; Path=/; HttpOnly; SameSite=Lax
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

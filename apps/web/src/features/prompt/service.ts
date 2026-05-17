@@ -13,7 +13,7 @@ import { ANALYZE_SYSTEM_PROMPT } from '@/prompts/systemPrompt';
 import { expandedPromptToText } from './utils/prompt-utils';
 
 const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_API_KEY,
+  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
 });
 
 export abstract class PromptService {

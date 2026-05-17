@@ -51,27 +51,34 @@ export function createLogger(config: LoggerConfig): Logger {
     timestamp: () => `,"time":"${new Date().toISOString()}"`,
   };
 
-  // Pretty printing configuration for development
-  if (pretty) {
-    return pino({
-      ...baseConfig,
-      transport: {
-        target: 'pino-pretty',
-        options: {
-          colorize: true,
-          translateTime: 'SYS:standard',
-          ignore: 'pid,hostname',
-          messageFormat: '[{app}] {msg}',
-          customColors: 'info:blue,warn:yellow,error:red,debug:green',
-          customLevels: 'trace:10,debug:20,info:30,warn:40,error:50,fatal:60',
-          levelFirst: true,
-          singleLine: false,
+  // Pretty printing configuration for development (only in Node.js environment)
+  // Skip pretty printing in browser/edge runtime environments
+  if (pretty && typeof process !== 'undefined' && process.versions?.node) {
+    try {
+      return pino({
+        ...baseConfig,
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            colorize: true,
+            translateTime: 'SYS:standard',
+            ignore: 'pid,hostname',
+            messageFormat: '[{app}] {msg}',
+            customColors: 'info:blue,warn:yellow,error:red,debug:green',
+            customLevels: 'trace:10,debug:20,info:30,warn:40,error:50,fatal:60',
+            levelFirst: true,
+            singleLine: false,
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      // Fallback to basic logger if pino-pretty fails
+      console.warn('Failed to initialize pino-pretty, falling back to basic logger');
+      return pino(baseConfig);
+    }
   }
 
-  // Production configuration (JSON output)
+  // Production configuration or fallback (JSON output)
   return pino(baseConfig);
 }
 
