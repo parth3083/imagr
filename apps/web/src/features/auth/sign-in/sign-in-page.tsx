@@ -38,7 +38,7 @@ function SignInPage() {
       setIsGoogleLoading(true);
       await authClient.signIn.social({
         provider: 'google',
-        callbackURL: '/dashboard/studio',
+        callbackURL: `${window.location.origin}/dashboard/studio`,
       });
     } catch (error) {
       console.error('Google sign-in error:', error);
@@ -52,7 +52,7 @@ function SignInPage() {
       setIsGithubLoading(true);
       await authClient.signIn.social({
         provider: 'github',
-        callbackURL: '/dashboard/studio',
+        callbackURL: `${window.location.origin}/dashboard/studio`,
       });
     } catch (error) {
       console.error('GitHub sign-in error:', error);
