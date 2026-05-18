@@ -57,7 +57,7 @@ export function StudioSidebar() {
         queryClient.clear();
       }
     } finally {
-      router.push('/');
+      router.push('/sign-in');
     }
   };
 
