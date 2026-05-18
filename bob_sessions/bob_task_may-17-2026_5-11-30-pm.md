@@ -325,14 +325,7 @@ I'll help you implement Google and GitHub authentication using Better Auth. Let 
 </file>
 <file><path>apps/web/.env</path>
 <content lines="1-8">
-1 | BETTER_AUTH_SECRET="JPfPiPUE7gfgqODJbxISmpjHJ4tNIoLt"
-2 | BETTER_AUTH_URL=http://localhost:3001
-3 |
-4 | DATABASE_URL="mongodb+srv://parthbrajput30_db_user:PszCxQthcsB7T6rL@cluster0.evkyekr.mongodb.net/?appName=Cluster0"
-5 |
-6 | GOOGLE_GENERATIVE_AI_API_KEY="AIzaSyDfY7hRkBXVVpLcyMo-aUtfBaHO4wsNU4A"
-7 |
-8 | RESEND_API_KEY="re_Q99ev5LM_Cg2pNc8EwPDnxc4U6mscXjDx"
+
 </content>
 </file>
 <file><path>apps/web/src/app/(auth)/sign-in/page.tsx</path>
@@ -2243,23 +2236,7 @@ IMPORTANT: When task status changes, remember to call the `update_todo_list` too
 
 ---
 
-BETTER_AUTH_SECRET="JPfPiPUE7gfgqODJbxISmpjHJ4tNIoLt"
-BETTER_AUTH_URL=http://localhost:3001
-
-DATABASE_URL="mongodb+srv://parthbrajput30_db_user:PszCxQthcsB7T6rL@cluster0.evkyekr.mongodb.net/?appName=Cluster0"
-
-GOOGLE_GENERATIVE_AI_API_KEY="AIzaSyDfY7hRkBXVVpLcyMo-aUtfBaHO4wsNU4A"
-
 # RESEND_API_KEY="re_Q99ev5LM_Cg2pNc8EwPDnxc4U6mscXjDx"
-
-BETTER_AUTH_SECRET="JPfPiPUE7gfgqODJbxISmpjHJ4tNIoLt"
-BETTER_AUTH_URL=http://localhost:3001
-
-DATABASE_URL="mongodb+srv://parthbrajput30_db_user:PszCxQthcsB7T6rL@cluster0.evkyekr.mongodb.net/?appName=Cluster0"
-
-GOOGLE_GENERATIVE_AI_API_KEY="AIzaSyDfY7hRkBXVVpLcyMo-aUtfBaHO4wsNU4A"
-
-RESEND_API_KEY="re_Q99ev5LM_Cg2pNc8EwPDnxc4U6mscXjDx"
 
 # OAuth Provider Credentials
 
@@ -2619,6 +2596,7 @@ setIsGithubLoading(false);
             >
 
 =======
+
 <div className="mt-3 flex w-full items-center justify-center gap-2">
 <Button
 type="button"
@@ -2932,6 +2910,7 @@ setIsGithubLoading(false);
             >
 
 =======
+
 <div className="mt-3 flex w-full items-center justify-center gap-2">
 <Button
 type="button"

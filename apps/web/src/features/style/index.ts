@@ -13,6 +13,7 @@ import {
 import { Elysia, t } from 'elysia';
 
 import { authMiddleware } from '@/features/auth/auth-middleware';
+import { UserSettingsService } from '@/features/user-settings/service';
 import { getUser } from '@/lib/get-user';
 
 import { StyleService } from './service';
@@ -23,10 +24,16 @@ export const style = new Elysia({ prefix: '/style' })
     '/',
     async ({ body, set, request }) => {
       const user = await getUser(request.headers);
+      const geminiApiKey = await UserSettingsService.getApiKey(user.id);
+      if (!geminiApiKey) {
+        set.status = 403;
+        return { message: 'No Gemini API key configured. Go to Settings to add one.' };
+      }
       const result = await StyleService.createWithEnhancedPrompt({
         userId: user.id,
         name: body.name,
         basicPrompt: body.basicPrompt,
+        geminiApiKey,
       });
 
       if (!result.success) {
@@ -40,6 +47,7 @@ export const style = new Elysia({ prefix: '/style' })
       body: CreateStyleModel,
       response: {
         200: StyleResponse,
+        403: t.Object({ message: t.String() }),
         500: t.Object({ message: t.String() }),
       },
     },

@@ -425,5 +425,3 @@ const Page = () => {
 };
 
 export default Page;
-
-// Made with Bob

@@ -9,6 +9,7 @@ import { aiModel } from '@/features/model';
 import { promptEnhancer } from '@/features/prompt';
 import { promptWeighter } from '@/features/prompt/weight';
 import { style } from '@/features/style';
+import { userSettings } from '@/features/user-settings';
 
 export const app = new Elysia({ prefix: '/api' })
   .use(betterAuth)
@@ -19,7 +20,8 @@ export const app = new Elysia({ prefix: '/api' })
   .use(lockWord)
   .use(promptEnhancer)
   .use(promptWeighter)
-  .use(history);
+  .use(history)
+  .use(userSettings);
 
 export const GET = app.handle;
 export const POST = app.handle;

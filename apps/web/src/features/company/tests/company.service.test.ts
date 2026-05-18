@@ -300,5 +300,3 @@ describe('CompanyService', () => {
     });
   });
 });
-
-// Made with Bob

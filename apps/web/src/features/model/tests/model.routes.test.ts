@@ -337,5 +337,3 @@ describe('AI Model Routes', () => {
     });
   });
 });
-
-// Made with Bob

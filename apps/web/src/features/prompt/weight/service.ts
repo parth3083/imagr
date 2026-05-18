@@ -11,15 +11,12 @@ import { generateObject } from 'ai';
 
 import connectDB from '@/db/db';
 import { Conversation, LockWord as LockWordModel, Model as AiModel, Style } from '@/db/models';
+import { UserSettingsService } from '@/features/user-settings/service';
 import { logger } from '@/lib/logger';
 import { formatForModel, type ModelTarget } from '@/lib/model-router';
 import { WEIGHT_SYSTEM_PROMPT } from '@/prompts/weightSystemPrompt';
 
 import { PromptService } from '../service';
-
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
-});
 
 class PromptWeightError extends Error {
   constructor(
@@ -122,7 +119,11 @@ export abstract class PromptWeightService {
    * @param request - Contains blueprint, style info, and lock words
    * @returns Weighted output with tokens, compiled prompt, and metadata
    */
-  static async weightBlueprint(request: WeightBlueprintRequest): Promise<WeightedOutput> {
+  static async weightBlueprint(
+    request: WeightBlueprintRequest,
+    geminiApiKey: string,
+  ): Promise<WeightedOutput> {
+    const google = createGoogleGenerativeAI({ apiKey: geminiApiKey });
     const { blueprint, prompt_style, lock_words } = request;
 
     const lowConfidenceCategories = (
@@ -167,12 +168,16 @@ export abstract class PromptWeightService {
   ): Promise<WeightedPromptResponse> {
     await connectDB();
 
+    const geminiApiKey = await UserSettingsService.getApiKey(userId);
+    if (!geminiApiKey) {
+      throw new PromptWeightError('No Gemini API key configured. Go to Settings to add one.', 403);
+    }
+
     // Step 1: Enhance the prompt to get structured blueprint
-    // This calls PromptService.getExpandedPrompt which analyzes the raw prompt
-    // and returns a structured blueprint with categorized elements
     logger.info('Step 1: Enhancing prompt to generate structured blueprint');
     const enhancement = await PromptService.getExpandedPrompt({
       prompt: request.prompt,
+      geminiApiKey,
     });
     logger.info('Prompt enhancement completed with blueprint');
 
@@ -195,18 +200,21 @@ export abstract class PromptWeightService {
 
     // Step 3: Generate weighted prompt from the structured blueprint
     logger.info('Step 3: Generating weighted prompt from structured blueprint');
-    const weighting = await this.weightBlueprint({
-      blueprint: enhancement.blueprint,
-      prompt_style: {
-        name: style.name,
-        description: style.extendedPrompt,
-        weight_range: getWeightRange(request.creative_tone),
+    const weighting = await this.weightBlueprint(
+      {
+        blueprint: enhancement.blueprint,
+        prompt_style: {
+          name: style.name,
+          description: style.extendedPrompt,
+          weight_range: getWeightRange(request.creative_tone),
+        },
+        lock_words: lockWords.map((lockWord) => ({
+          word: lockWord.word,
+          format: lockWord.format,
+        })),
       },
-      lock_words: lockWords.map((lockWord) => ({
-        word: lockWord.word,
-        format: lockWord.format,
-      })),
-    });
+      geminiApiKey,
+    );
     logger.info('Weighted prompt generation completed');
 
     // Step 4: Format output based on model type using switch-case helper

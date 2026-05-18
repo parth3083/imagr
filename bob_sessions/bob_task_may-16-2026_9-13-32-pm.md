@@ -1885,7 +1885,7 @@ IMPORTANT: When task status changes, remember to call the `update_todo_list` too
 425 | );
 426 | }
 427 |
-428 | // Made with Bob
+428 |  
 </content>
 </file>
 <file><path>apps/web/src/app/layout.tsx</path>

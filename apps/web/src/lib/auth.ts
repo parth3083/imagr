@@ -12,6 +12,11 @@ if (!DATABASE_URL) {
 const client = new MongoClient(DATABASE_URL);
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3001',
+  trustedOrigins: [
+    process.env.BETTER_AUTH_URL || 'http://localhost:3001',
+    ...(process.env.NEXT_PUBLIC_APP_URL ? [process.env.NEXT_PUBLIC_APP_URL] : []),
+  ],
   database: mongodbAdapter(client.db()),
   emailAndPassword: {
     enabled: true,

@@ -338,5 +338,3 @@ describe('Company Routes', () => {
     });
   });
 });
-
-// Made with Bob

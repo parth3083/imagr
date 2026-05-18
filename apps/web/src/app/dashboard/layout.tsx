@@ -13,5 +13,3 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     </TooltipProvider>
   );
 }
-
-// Made with Bob

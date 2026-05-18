@@ -1719,7 +1719,7 @@ I'll analyze the UI layout issue shown in the image and implement comprehensive 
 19 | );
 20 | }
 21 |
-22 | // Made with Bob
+22 |  
 </content>
 </file>
 <file><path>apps/web/src/features/studio/studio-page.tsx</path>
@@ -2104,7 +2104,7 @@ I'll analyze the UI layout issue shown in the image and implement comprehensive 
 378 | );
 379 | }
 380 |
-381 | // Made with Bob
+381 |  
 </content>
 </file>
 <file><path>apps/web/src/features/studio/components/studio-sidebar.tsx</path>
@@ -2265,7 +2265,7 @@ I'll analyze the UI layout issue shown in the image and implement comprehensive 
 154 | );
 155 | }
 156 |
-157 | // Made with Bob
+157 |  
 </content>
 </file>
 </files>

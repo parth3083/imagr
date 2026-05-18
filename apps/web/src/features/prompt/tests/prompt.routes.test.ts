@@ -262,5 +262,3 @@ describe('Prompt Enhancer Routes', () => {
     });
   });
 });
-
-// Made with Bob

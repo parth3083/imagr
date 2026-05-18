@@ -33,6 +33,7 @@ export abstract class StyleService {
     userId: string;
     name: string;
     basicPrompt: string;
+    geminiApiKey: string;
   }): Promise<ServiceResult<IStyle>> {
     try {
       await connectDB();
@@ -42,7 +43,10 @@ export abstract class StyleService {
 
     let enhanced: Awaited<ReturnType<typeof PromptService.getExpandedPrompt>>;
     try {
-      enhanced = await PromptService.getExpandedPrompt({ prompt: data.basicPrompt });
+      enhanced = await PromptService.getExpandedPrompt({
+        prompt: data.basicPrompt,
+        geminiApiKey: data.geminiApiKey,
+      });
     } catch (error) {
       return {
         success: false,

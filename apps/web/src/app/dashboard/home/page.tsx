@@ -173,5 +173,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-// Made with Bob

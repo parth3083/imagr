@@ -183,7 +183,9 @@ describe('AuthService', () => {
 
       const result = await AuthService.getSession(mockHeaders);
 
-      expect(auth.api.getSession).toHaveBeenCalledWith({ headers: mockHeaders });
+      expect(auth.api.getSession).toHaveBeenCalledWith({
+        headers: mockHeaders,
+      });
       expect(result).toEqual(mockSession);
     });
 
@@ -255,5 +257,3 @@ describe('AuthService', () => {
     });
   });
 });
-
-// Made with Bob

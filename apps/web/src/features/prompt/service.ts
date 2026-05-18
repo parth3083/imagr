@@ -12,13 +12,12 @@ import { ANALYZE_SYSTEM_PROMPT } from '@/prompts/systemPrompt';
 
 import { expandedPromptToText } from './utils/prompt-utils';
 
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
-});
-
 export abstract class PromptService {
-  // Function to get the expanded prompt
-  static async getExpandedPrompt({ prompt }: AnalyzeRequest): Promise<AnalyzeResponse> {
+  static async getExpandedPrompt({
+    prompt,
+    geminiApiKey,
+  }: AnalyzeRequest & { geminiApiKey: string }): Promise<AnalyzeResponse> {
+    const google = createGoogleGenerativeAI({ apiKey: geminiApiKey });
     try {
       const result = await generateObject({
         model: google('gemini-3-flash-preview'),

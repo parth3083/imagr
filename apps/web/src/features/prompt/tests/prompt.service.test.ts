@@ -222,5 +222,3 @@ describe('PromptService', () => {
     });
   });
 });
-
-// Made with Bob

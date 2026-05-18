@@ -177,5 +177,3 @@ describe('SignInPage', () => {
     expect(emailInput).toHaveAttribute('placeholder', 'm@example.com');
   });
 });
-
-// Made with Bob

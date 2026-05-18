@@ -4,6 +4,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu';
 import {
@@ -19,7 +20,15 @@ import {
   SidebarMenuItem,
 } from '@repo/ui/components/ui/sidebar';
 import { useQueryClient } from '@tanstack/react-query';
-import { History, Image as ImageIcon, LogOut, MoreVertical, Palette, Sparkles } from 'lucide-react';
+import {
+  History,
+  Image as ImageIcon,
+  LogOut,
+  MoreVertical,
+  Palette,
+  Settings,
+  Sparkles,
+} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -104,6 +113,14 @@ export function StudioSidebar() {
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="top" align="end" className="w-40">
+              <DropdownMenuItem
+                className="cursor-pointer gap-2"
+                onClick={() => router.push('/dashboard/settings')}
+              >
+                <Settings className="h-4 w-4" />
+                Settings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem
                 variant="destructive"
                 className="cursor-pointer gap-2"

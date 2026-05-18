@@ -34,5 +34,3 @@ vi.mock('sonner', () => ({
     warning: vi.fn(),
   },
 }));
-
-// Made with Bob

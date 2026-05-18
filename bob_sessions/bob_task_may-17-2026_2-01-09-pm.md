@@ -333,7 +333,7 @@ I'll analyze the task and implement the required changes to the weighted prompt 
 17 | } from "@/db/models";
 18 | import { formatForModel, type ModelTarget } from "@/lib/model-router";
 19 | import { logger } from "@/lib/logger";
-20 | import { WEIGHT_SYSTEM_PROMPT } from "@/prompts/weightSystemPrompt";
+20 | import { WEIGHT*SYSTEM_PROMPT } from "@/prompts/weightSystemPrompt";
 21 |
 22 | import { PromptService } from "../service";
 23 |
@@ -352,7 +352,7 @@ I'll analyze the task and implement the required changes to the weighted prompt 
 36 | }
 37 |
 38 | function escapeRegex(value: string) {
-39 | return value.replace(/[._+?^${}()|[\]\\]/g, "\\$&");
+39 | return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 40 | }
 41 |
 42 | function parseLockWordWeight(format: string): number {
@@ -1761,29 +1761,28 @@ const { blueprint, prompt_style, lock_words } = request;
         ): Promise<WeightedOutput> {
         const { blueprint, prompt_style, lock_words } = request;
 
+        const lowConfidenceCategories = (
+        Object.entries(blueprint) as [string, { confidence: number }][]
+        )
+        .filter(([, entry]) => entry.confidence < 0.6)
+        .map(([key]) => key);
 
-          const lowConfidenceCategories = (
-            Object.entries(blueprint) as [string, { confidence: number }][]
-          )
-            .filter(([, entry]) => entry.confidence < 0.6)
-            .map(([key]) => key);
+        const result = await generateObject({
+        model: google("gemini-3-flash-preview"),
+        schema: weightedOutputZodSchema,
+        system: WEIGHT_SYSTEM_PROMPT,
+        prompt: JSON.stringify({
+        blueprint,
+        prompt_style,
+        blueprint_categories_with_low_confidence: lowConfidenceCategories,
+        }),
+        });
 
-          const result = await generateObject({
-            model: google("gemini-3-flash-preview"),
-            schema: weightedOutputZodSchema,
-            system: WEIGHT_SYSTEM_PROMPT,
-            prompt: JSON.stringify({
-              blueprint,
-              prompt_style,
-              blueprint_categories_with_low_confidence: lowConfidenceCategories,
-            }),
-          });
+        if (!result.object) {
+        throw new PromptWeightError("Weight generation returned no object", 500);
+        }
 
-          if (!result.object) {
-            throw new PromptWeightError("Weight generation returned no object", 500);
-          }
-
-          return injectLockWords(result.object as WeightedOutput, lock_words);
+        return injectLockWords(result.object as WeightedOutput, lock_words);
 
       }
 
@@ -1825,15 +1824,14 @@ await connectDB();
   ): Promise<WeightedPromptResponse> {
   await connectDB();
 
-
-    // Step 1: Enhance the prompt to get structured blueprint
-    // This calls PromptService.getExpandedPrompt which analyzes the raw prompt
-    // and returns a structured blueprint with categorized elements
-    logger.info("Step 1: Enhancing prompt to generate structured blueprint");
-    const enhancement = await PromptService.getExpandedPrompt({
-      prompt: request.prompt,
-    });
-    logger.info("Prompt enhancement completed with blueprint");
+  // Step 1: Enhance the prompt to get structured blueprint
+  // This calls PromptService.getExpandedPrompt which analyzes the raw prompt
+  // and returns a structured blueprint with categorized elements
+  logger.info("Step 1: Enhancing prompt to generate structured blueprint");
+  const enhancement = await PromptService.getExpandedPrompt({
+  prompt: request.prompt,
+  });
+  logger.info("Prompt enhancement completed with blueprint");
 
 > > > > > > > REPLACE
 > > > > > > > </diff>
@@ -6356,7 +6354,7 @@ IMPORTANT: When task status changes, remember to call the `update_todo_list` too
 195 | });
 196 | });
 197 |
-198 | // Made with Bob
+198 |  
 </content>
 </file>
 <file><path>apps/web/src/features/auth/hooks/useSignIn.ts</path>
@@ -6988,7 +6986,7 @@ error: null,
 });
 });
 
-# // Made with Bob
+#
 
 it('should redirect to custom path when redirectTo is provided', async () => {
 const mockResponse = {
@@ -7439,7 +7437,7 @@ There also an error for the 'apps/web/src/features/style/tests/style.routes.test
 296 | });
 297 | });
 298 |
-299 | // Made with Bob
+299 |
 
 </file_content>
 <environment_details>
@@ -8071,7 +8069,7 @@ success: true,
 });
 });
 
-# // Made with Bob
+#
 
 import { Elysia } from 'elysia';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
@@ -8748,8 +8746,6 @@ success: true,
 
 });
 });
-
-// Made with Bob
 
 Best Match Found:
 1 | import { Elysia } from 'elysia';

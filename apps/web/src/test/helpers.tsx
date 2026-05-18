@@ -54,5 +54,3 @@ export const createMockElysiaContext = (overrides = {}) => ({
 });
 
 export * from '@testing-library/react';
-
-// Made with Bob

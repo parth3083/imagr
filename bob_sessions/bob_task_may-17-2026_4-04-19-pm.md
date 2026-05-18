@@ -701,16 +701,16 @@ Now I need to check if there's a similar issue in the database connection file:
 <content lines="1-64">
 1 | import mongoose from 'mongoose';
 2 |
-3 | const MONGODB_URI = process.env.DATABASE_URL;
+3 | const MONGODB*URI = process.env.DATABASE_URL;
 4 |
 5 | if (!MONGODB_URI) {
 6 | throw new Error('Please define the DATABASE_URL environment variable inside .env');
 7 | }
 8 |
-9 | /\*_
+9 | /\**
 10 | _ Global is used here to maintain a cached connection across hot reloads
 11 | _ in development. This prevents connections growing exponentially
-12 | _ during API Route usage.
+12 | \_ during API Route usage.
 13 | \*/
 14 | interface MongooseCache {
 15 | conn: typeof mongoose | null;

@@ -344,5 +344,3 @@ describe('Lock Word Routes', () => {
     });
   });
 });
-
-// Made with Bob
