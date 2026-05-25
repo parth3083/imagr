@@ -14,7 +14,6 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
 
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -34,7 +33,6 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
 
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -53,7 +51,6 @@ jobs:
       - quality
       - security
     steps:
-      - uses: actions/checkout@v4
 
       - name: Setup Environment
         uses: ./.github/actions/setup
