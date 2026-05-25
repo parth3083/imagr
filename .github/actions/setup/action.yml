@@ -1,11 +1,9 @@
 name: Setup Bun Environment
-description: Checkout, install Bun, restore cache, install deps
+description: Install Bun, restore cache, install deps
 
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v4
-
     - uses: oven-sh/setup-bun@v2
       with:
         bun-version: 1.3.3
