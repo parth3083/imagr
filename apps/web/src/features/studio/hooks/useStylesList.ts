@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { apiClient } from '@/lib/api-client';
 
-export type StudioStyle = {
+type StudioStyle = {
   _id: string;
   name: string;
 };

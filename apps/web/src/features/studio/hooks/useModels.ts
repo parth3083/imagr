@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { apiClient } from '@/lib/api-client';
 
-export type StudioModel = {
+type StudioModel = {
   _id: string;
   name: string;
 };
