@@ -4,7 +4,6 @@ description: Checkout, install Bun, restore cache, install deps
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v4
 
     - uses: oven-sh/setup-bun@v2
       with:
