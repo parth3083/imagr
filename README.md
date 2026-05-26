@@ -58,34 +58,44 @@ The system also creates a negative prompt, assigns a quality score, and adapts t
 ## Features
 
 ### Prompt Blueprint
+
 Breaks the user's idea into structured categories: subject, scene, mood, lighting, composition, camera, style, color palette, and details. Each category is tagged as user-provided or AI-inferred, enabling full transparency over what the compiler added.
 
 ### Smart Weight Assignment
+
 Assigns emphasis weights (1.0 to 1.5) to tokens based on a visual importance hierarchy. The main subject receives the highest weight, mood drivers come second, style modifiers third, and background context stays at baseline. This ensures the diffusion model focuses on what matters most.
 
 ### Negative Prompt Generator
+
 Generates exclusion prompts that are reactive to the positive prompt rather than relying on generic templates. If the subject is a person, anatomy-related artifacts are excluded. If the style is photorealistic, cartoon and illustration styles are negated.
 
 ### Model Router
+
 Converts the same creative intent into model-specific prompt formats:
+
 - **Stable Diffusion**: Parenthetical weight syntax `(token:1.3)`
 - **Flux**: Natural language emphasis through word order and description length
 - **ComfyUI**: Compel-compatible weight syntax
 - **GPT Image**: Descriptive prose with positional emphasis
 
 ### Prompt Linter
+
 Detects vague language, contradictions, repetition, weight conflicts, and missing visual details before the prompt is sent to any model. Issues are surfaced as warnings with severity levels and actionable suggestions.
 
 ### Style Presets
+
 Reusable creative directions that control the weighting strategy. Aggressive style pushes weights higher for dramatic focus. Conservative style keeps weights minimal for safer, more predictable outputs. Custom presets can be saved and reused across sessions.
 
 ### Prompt Arena
+
 Compares multiple prompt variants side by side. Users can generate variants with different styles, vote on the best output, and view a diff of what the compiler changed in each version.
 
 ### Quality Score
+
 Rates each compiled prompt on three dimensions: specificity (how detailed and concrete), coherence (whether instructions conflict), and weight distribution (whether the hierarchy is clear). Returns an overall score from 0 to 100.
 
 ### Lock Words
+
 Allows users to lock specific tokens at fixed weights that the compiler cannot override. This gives advanced users precise control over individual elements while letting the compiler optimize everything else.
 
 ---
@@ -95,12 +105,15 @@ Allows users to lock specific tokens at fixed weights that the compiler cannot o
 The compilation pipeline runs in two stages followed by a deterministic formatting step.
 
 ### Stage 1: Analyze and Expand
+
 The raw user prompt is sent to the LLM, which breaks it into a structured Blueprint. Missing categories are inferred from context. Each field is marked with its source (user-provided or AI-inferred) and a confidence score. The output is a structured JSON object, not a formatted prompt.
 
 ### Stage 2: Weight, Score, and Negate
+
 The Blueprint is passed to a second LLM call along with the selected prompt style and any lock words. The LLM assigns token-level weights based on the visual importance hierarchy, generates a reactive negative prompt, scores the prompt quality, and returns lint warnings for any detected issues.
 
 ### Stage 3: Model Router (No LLM)
+
 A pure code formatter takes the weighted token array and converts it into the target model's syntax. This step requires no LLM call and runs deterministically.
 
 ```
@@ -120,16 +133,16 @@ Raw Prompt
 
 ## Tech Stack
 
-| Layer         | Technology                          |
-|---------------|-------------------------------------|
-| Frontend      | Next.js (App Router), TypeScript    |
-| Styling       | Tailwind CSS                        |
-| AI SDK        | Vercel AI SDK                       |
-| LLM Provider  | IBM Granite                         |
-| Backend       | ElysiaJS                            |
-| Database      | PostgreSQL                          |
-| Auth          | Clerk                               |
-| Deployment    | Vercel                              |
+| Layer        | Technology                       |
+| ------------ | -------------------------------- |
+| Frontend     | Next.js (App Router), TypeScript |
+| Styling      | Tailwind CSS                     |
+| AI SDK       | Vercel AI SDK                    |
+| LLM Provider | IBM Granite                      |
+| Backend      | ElysiaJS                         |
+| Database     | PostgreSQL                       |
+| Auth         | Clerk                            |
+| Deployment   | Vercel                           |
 
 ---
 
@@ -272,13 +285,13 @@ imagr/
 
 ## Supported Models
 
-| Model             | Weight Syntax          | Status    |
-|-------------------|------------------------|-----------|
-| Stable Diffusion  | (token:1.3)            | Supported |
-| Flux              | Natural language       | Supported |
-| ComfyUI           | Compel syntax          | Supported |
-| GPT Image (DALL-E)| Descriptive prose      | Supported |
-| Midjourney        | Parameter flags        | Planned   |
+| Model              | Weight Syntax     | Status    |
+| ------------------ | ----------------- | --------- |
+| Stable Diffusion   | (token:1.3)       | Supported |
+| Flux               | Natural language  | Supported |
+| ComfyUI            | Compel syntax     | Supported |
+| GPT Image (DALL-E) | Descriptive prose | Supported |
+| Midjourney         | Parameter flags   | Planned   |
 
 ---
 

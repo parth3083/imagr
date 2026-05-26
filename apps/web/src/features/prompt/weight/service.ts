@@ -132,9 +132,10 @@ export abstract class PromptWeightService {
       .filter(([, entry]) => entry.confidence < 0.6)
       .map(([key]) => key);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await generateObject({
-      model: google('gemini-3-flash-preview'),
-      schema: weightedOutputZodSchema,
+      model: google('gemini-3.5-flash'),
+      schema: weightedOutputZodSchema as any,
       system: WEIGHT_SYSTEM_PROMPT,
       prompt: JSON.stringify({
         blueprint,
