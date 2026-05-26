@@ -48,6 +48,7 @@ jobs:
         uses: advanced-security/secret-scanning-review-action@v1
         with:
           token: ${{secrets.GITHUB_TOKEN}}
+        if: github.event_name == 'pull_request'
 
   build:
     runs-on: ubuntu-latest
