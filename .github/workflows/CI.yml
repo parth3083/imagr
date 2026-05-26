@@ -46,8 +46,8 @@ jobs:
 
       - name: Secret Scan
         uses: advanced-security/secret-scanning-review-action@v1
-        env:
-          GITHUB_TOKEN: ${{secrets.SECRET_TOKEN}}
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
 
   build:
     runs-on: ubuntu-latest
