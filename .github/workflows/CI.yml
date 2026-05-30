@@ -62,5 +62,8 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup
 
+      - name: Installing Dependencies
+        run: bun install
+
       - name: Project Build
         run: bun run build
