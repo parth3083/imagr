@@ -41,5 +41,5 @@ export const auth = betterAuth({
 });
 
 // Export types for type safety
-type Session = typeof auth.$Infer.Session;
-type User = typeof auth.$Infer.Session.user;
+export type Session = typeof auth.$Infer.Session;
+export type User = typeof auth.$Infer.Session.user;

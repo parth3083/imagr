@@ -19,11 +19,10 @@ export abstract class PromptService {
   }: AnalyzeRequest & { geminiApiKey: string }): Promise<AnalyzeResponse> {
     const google = createGoogleGenerativeAI({ apiKey: geminiApiKey });
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result = await generateObject({
-        model: google('gemini-3.5-flash'),
+        model: google('gemini-3-flash-preview'),
         prompt: `Analyze this image generation prompt and return the structured blueprint:\n\n:${prompt}`,
-        schema: blueprintZodSchema as any,
+        schema: blueprintZodSchema,
         system: ANALYZE_SYSTEM_PROMPT,
       });
 

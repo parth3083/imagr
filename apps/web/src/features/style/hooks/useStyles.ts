@@ -78,7 +78,7 @@ export function useCreateStyle() {
   });
 }
 
-function useToggleSaveStyle() {
+export function useToggleSaveStyle() {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -105,7 +105,7 @@ function useToggleSaveStyle() {
   });
 }
 
-function useUseStyle() {
+export function useUseStyle() {
   const queryClient = useQueryClient();
 
   return useMutation({
