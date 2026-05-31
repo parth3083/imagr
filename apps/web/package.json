@@ -12,19 +12,21 @@
     "test:ui": "vitest --ui",
     "test:backend": "vitest run --project backend",
     "test:frontend": "vitest run --project frontend",
-    "test:coverage": "vitest run --coverage",
-    "knip": "knip"
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.75",
+    "@better-auth/mongo-adapter": "^1.6.11",
     "@elysia/eden": "^1.4.10",
     "@elysiajs/cors": "^1.4.2",
+    "@hookform/resolvers": "^5.2.2",
     "@tanstack/react-query": "^5.100.10",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@vitest/ui": "^4.1.6",
     "ai": "^6.0.184",
+    "axios": "^1.16.1",
     "better-auth": "^1.6.11",
     "elysia": "^1.4.28",
     "happy-dom": "^20.9.0",
@@ -36,8 +38,7 @@
     "react-dom": "19.2.4",
     "react-hook-form": "^7.76.0",
     "sonner": "^2.0.7",
-    "vitest": "^4.1.6",
-    "zod": "^4.4.3"
+    "vitest": "^4.1.6"
   },
   "devDependencies": {
     "@repo/core-types": "*",
@@ -45,16 +46,16 @@
     "@repo/logger": "*",
     "@repo/ui": "*",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^25.9.1",
+    "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/testing-library__jest-dom": "^6.0.0",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "jsdom": "^29.1.1",
-    "knip": "^6.14.2",
-    "tailwindcss": "^4.3.0",
-    "typescript": "^6.0.3"
+    "tailwindcss": "^4",
+    "typescript": "^5"
   },
   "ignoreScripts": [
     "sharp",
