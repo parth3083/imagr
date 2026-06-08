@@ -138,11 +138,12 @@ Raw Prompt
 | Frontend     | Next.js (App Router), TypeScript |
 | Styling      | Tailwind CSS                     |
 | AI SDK       | Vercel AI SDK                    |
-| LLM Provider | IBM Granite                      |
+| LLM Provider | Google Generative AI             |
 | Backend      | ElysiaJS                         |
-| Database     | PostgreSQL                       |
-| Auth         | Clerk                            |
-| Deployment   | Vercel                           |
+| Database     | MongoDB                          |
+| Auth         | BetterAuth                       |
+| Runtime      | Bun                              |
+| Deployment   | Docker                           |
 
 ---
 
@@ -208,77 +209,114 @@ The application uses the following tables:
 
 ### Prerequisites
 
-- Node.js 18 or higher
-- PostgreSQL
-- IBM Granite API key (or any LLM provider supported by Vercel AI SDK)
+- [Docker](https://docs.docker.com/get-docker/) and Docker Compose
+- [Bun](https://bun.sh/) (for local development only)
+- Google Generative AI API key
+- OAuth app credentials for Google and/or GitHub (optional)
+- Resend API key (for email, optional)
 
-### Installation
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/Parth3083/Imagr.git
 cd Imagr
 ```
 
-### Install Dependencies
+### 2. Configure environment variables
+
+Copy the example env file and fill in your values:
 
 ```bash
-npm install
+cp apps/web/.env.example apps/web/.env
 ```
 
-### Environment Variables
-
-Create a `.env.local` file in the root directory:
+Edit `apps/web/.env`:
 
 ```env
-DATABASE_URL=your_postgresql_connection_string
-IBM_GRANITE_API_KEY=your_api_key
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-CLERK_SECRET_KEY=your_clerk_secret_key
+# Required
+BETTER_AUTH_SECRET=your_random_secret_string   # generate with: openssl rand -base64 32
+BETTER_AUTH_URL=http://localhost:3001
+DATABASE_URL=mongodb://localhost:27017/imagr    # overridden by Docker to use internal service
+GOOGLE_GENERATIVE_AI_API_KEY=your_api_key
+
+# Optional — OAuth providers
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+
+# Optional — email
+RESEND_API_KEY=your_resend_api_key
 ```
 
-### Run Database Migrations
+### 3. Build the Docker image
+
+Run from the **project root** (not the `docker/` folder), as the Dockerfile copies from the monorepo root:
 
 ```bash
-npx prisma migrate dev
+docker build -t imagr -f docker/dockerFile .
 ```
 
-### Start Development Server
+### 4. Start the application
 
 ```bash
-npm run dev
+cd docker
+docker compose up
 ```
 
-The application will be available at `http://localhost:3000`.
+The application will be available at `http://localhost:3001`.  
+MongoDB runs internally and is not exposed outside the container network.
+
+### Useful commands
+
+```bash
+# Run in detached (background) mode
+docker compose up -d
+
+# View logs
+docker compose logs -f imagr
+
+# Stop all services
+docker compose down
+
+# Stop and remove volumes (wipes the database)
+docker compose down -v
+
+# Rebuild after code changes
+docker build -t imagr -f docker/dockerFile . && docker compose up
+```
+
+### Local development (without Docker)
+
+```bash
+bun install
+bun run dev
+```
+
+The dev server starts at `http://localhost:3000`. You will need a running MongoDB instance and all env vars set in `apps/web/.env`.
 
 ---
 
 ## Project Structure
 
 ```
-imagr/
-  src/
-    app/
-      (auth)/           # Authentication pages
-      (dashboard)/      # Protected dashboard routes
-        prompt-studio/  # Main prompt editor (Page 2)
-        prompt-arena/   # Variant comparison (Page 3)
-        style-library/  # Reusable presets (Page 4)
-      api/              # API routes
-    components/         # Shared UI components
-    lib/
-      skills/
-        analyze.ts      # Skill 1: Analyze and Expand
-        weight.ts       # Skill 2: Weight, Score, and Negate
-      router/
-        index.ts        # Model Router formatters
-      schemas/
-        blueprint.ts    # Zod schema for Blueprint
-        weighted.ts     # Zod schema for Weighted Output
-      db/               # Database client and queries
-    types/              # TypeScript type definitions
-  prisma/
-    schema.prisma       # Database schema
-  public/               # Static assets
+imagr/                        # Monorepo root (Turborepo + Bun workspaces)
+  apps/
+    web/                      # Next.js application
+      app/
+        (auth)/               # Authentication pages
+        (dashboard)/          # Protected dashboard routes
+      components/             # Shared UI components
+      lib/                    # Skills, router, schemas, db client
+      public/                 # Static assets
+      .env.example            # Environment variable template
+  packages/
+    email/                    # Email templates (Resend)
+  docker/
+    dockerFile                # Multi-stage Docker build (Bun)
+    docker-compose.yml        # App + MongoDB services
+  turbo.json                  # Turborepo pipeline config
+  package.json                # Root workspace manifest
 ```
 
 ---
