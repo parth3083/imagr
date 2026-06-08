@@ -1,0 +1,32 @@
+services:
+  database:
+    image: mongo
+    ports:
+      - '27017:27017'
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: imagr
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongo', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  imagr:
+    image: imagr
+    depends_on:
+      - database
+    restart: unless-stopped
+    ports:
+      - '3001:3001'
+    environment:
+      DATABASE_URL: 'mongodb://database:27017/imagr'
+      BETTER_AUTH_URL: 'http://localhost:3001'
+      NEXT_PUBLIC_API_URL: 'http://localhost:3001'
+    env_file:
+      - ../apps/web/.env
+
+volumes:
+  mongo_data:
