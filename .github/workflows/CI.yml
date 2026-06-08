@@ -88,7 +88,6 @@ jobs:
       matrix:
         platform:
           - linux/amd64
-          - linux/arm64
 
     steps:
       - name: Checkout
@@ -109,3 +108,14 @@ jobs:
           push: false
           cache-from: type=gha,scope=${{ matrix.platform }}
           cache-to: type=gha,mode=max,scope=${{ matrix.platform }}
+          build-args: |
+            BETTER_AUTH_SECRET=${{ vars.BETTER_AUTH_SECRET }}
+            BETTER_AUTH_URL=${{ vars.BETTER_AUTH_URL }}
+            DATABASE_URL=${{ vars.DATABASE_URL }}
+            GOOGLE_GENERATIVE_AI_API_KEY=${{ vars.GOOGLE_GENERATIVE_AI_API_KEY }}
+            RESEND_API_KEY=${{ vars.RESEND_API_KEY }}
+            GOOGLE_CLIENT_ID=${{ vars.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET=${{ vars.GOOGLE_CLIENT_SECRET }}
+            GITHUB_CLIENT_ID=${{ vars.CLIENT_ID }}
+            GITHUB_CLIENT_SECRET=${{ vars.CLIENT_SECRET }}
+            NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }}
