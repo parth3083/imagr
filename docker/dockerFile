@@ -1,0 +1,62 @@
+# Stage 1: Build
+FROM oven/bun:1 AS builder
+
+WORKDIR /app
+
+ARG BETTER_AUTH_SECRET
+ARG BETTER_AUTH_URL
+ARG DATABASE_URL
+ARG GOOGLE_GENERATIVE_AI_API_KEY
+ARG RESEND_API_KEY
+ARG GOOGLE_CLIENT_ID
+ARG GOOGLE_CLIENT_SECRET
+ARG GITHUB_CLIENT_ID
+ARG GITHUB_CLIENT_SECRET
+ARG NEXT_PUBLIC_API_URL
+
+ENV BETTER_AUTH_SECRET=$BETTER_AUTH_SECRET
+ENV BETTER_AUTH_URL=$BETTER_AUTH_URL
+ENV DATABASE_URL=$DATABASE_URL
+ENV GOOGLE_GENERATIVE_AI_API_KEY=$GOOGLE_GENERATIVE_AI_API_KEY
+ENV RESEND_API_KEY=$RESEND_API_KEY
+ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+ENV GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID
+ENV GITHUB_CLIENT_SECRET=$GITHUB_CLIENT_SECRET
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
+COPY ./package.json ./package.json
+COPY ./bun.lock ./bun.lock
+COPY ./turbo.json ./turbo.json
+COPY ./packages ./packages
+COPY ./apps/web ./apps/web
+
+RUN bun install
+
+RUN bun run build
+
+# Stage 2: Runner
+FROM oven/bun:1-slim AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Copy manifests so bun can resolve workspaces and install prod deps
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/bun.lock ./bun.lock
+COPY --from=builder /app/packages ./packages
+COPY --from=builder /app/apps/web/package.json ./apps/web/package.json
+COPY --from=builder /app/node_modules ./node_modules
+
+RUN bun install --production --ignore-scripts
+
+COPY --from=builder /app/apps/web/.next ./apps/web/.next
+COPY --from=builder /app/apps/web/public ./apps/web/public
+
+EXPOSE 3001
+
+ENV PORT=3001
+
+WORKDIR /app/apps/web
+CMD ["bun", "run", "start"]

@@ -71,7 +71,7 @@ export function createLogger(config: LoggerConfig): Logger {
           },
         },
       });
-    } catch (error) {
+    } catch (_error) {
       // Fallback to basic logger if pino-pretty fails
       console.warn('Failed to initialize pino-pretty, falling back to basic logger');
       return pino(baseConfig);

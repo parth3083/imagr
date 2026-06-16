@@ -9,7 +9,6 @@ import {
   Clock,
   Zap,
   Palette,
-  Sword,
   FolderOpen,
   Image as ImageIcon,
 } from 'lucide-react';

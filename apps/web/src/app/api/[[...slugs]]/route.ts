@@ -1,4 +1,4 @@
-import { Elysia, t } from 'elysia';
+import { Elysia } from 'elysia';
 
 import { auth } from '@/features/auth';
 import { betterAuth } from '@/features/auth/utils/elysia-better-auth';
