@@ -13,7 +13,9 @@
     "format": "oxfmt --check",
     "format:fix": "oxfmt .",
     "check-types": "turbo run check-types",
-    "prepare": "husky"
+    "prepare": "husky",
+    "knip": "bun knip",
+    "knip:fix": "bun knip --fix"
   },
   "dependencies": {
     "vitest": "^4.1.6"
