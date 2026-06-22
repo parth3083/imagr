@@ -14,7 +14,7 @@ Five components total (on top of your existing app + MongoDB):
 
 ---
 
-Part 1 — App Instrumentation (prom-client)
+Part 1 — App Instrumentation (prom-client) ✅ Done all the metrics are exposed in the endpoints
 
 Install prom-client in apps/web. Create a metricsPlugin (Elysia plugin) that:
 
