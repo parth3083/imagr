@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "module": "./src/server.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/helmet": "^4.0.0",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^26.6.3",
+    "@types/winston": "^2.4.4"
+  },
+  "scripts": {
+    "start": "bun run ./src/server.ts"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.4",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "morgan": "^1.12.1",
+    "winston": "^3.19.0"
+  }
+}

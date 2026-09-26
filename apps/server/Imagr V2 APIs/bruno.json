@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Imagr V2 APIs",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
