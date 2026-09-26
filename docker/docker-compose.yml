@@ -15,7 +15,7 @@ services:
       retries: 5
 
   imagr:
-    image: parth3083/imagr:latest
+    image: parth3083/imagr
     depends_on:
       - database
     restart: unless-stopped
@@ -27,6 +27,13 @@ services:
       NEXT_PUBLIC_API_URL: 'http://localhost:3001'
     env_file:
       - ../apps/web/.env
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./:/etc/prometheus
+    ports:
+      - '9090:9090'
 
 volumes:
   mongo_data:

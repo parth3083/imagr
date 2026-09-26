@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - montoring
   pull_request:
     branches:
       - main
